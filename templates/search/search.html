@@ -1,18 +1,23 @@
 {% extends 'base.djhtml' %}
 
+{% block cssfiles %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/search.css" type="text/css">
+{% endblock %}
+
 {% block contents %}
 
+{% load highlight %}
 <section id="search">
-    
+
     {% if query %}
-        <h2>Search Results</h2>
+        <h2>검색 결과</h2>
         
         {% for result in page.object_list %}
             <p>
-                <a href="{{ result.obejct.get_absolute_url }} ">{{ result.object.title }}
+                <a href="{{ result.object.get_absolute_url }}">{% highlight result.object.title with query %}</a>
             </p>
         {% empty %}
-            <p>No results</p>
+            <p>결과가 없습니다!</p>
         {% endfor %}
 
         {% if page.has_previous or page.has_next %}
@@ -22,6 +27,8 @@
                 {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
             </div>
         {% endif %}
+    {% else %}
+        <h2>검색어를 입력해 주세요!</h2>
     {% endif %}
 
 </section>

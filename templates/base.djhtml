@@ -33,7 +33,7 @@
 
                     <div class="nav-collapse">
                         <form class="navbar-search pull-left" action="/search/">
-                            <input type="text" class="search-query span2" name="q" placeholder="Search">
+                            <input type="text" class="search-query span2" name="q" placeholder="검색" value="{{ request.GET.q }}">
                         </form>
 
                         {% if user.is_authenticated %}

@@ -107,6 +107,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'DB_MyLibrary.urls'
@@ -119,6 +120,12 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.static',
+    'django.core.context_processors.request',
 )
 
 INSTALLED_APPS = (
@@ -135,6 +142,7 @@ INSTALLED_APPS = (
 
     'compressor',
     'haystack',
+    'debug_toolbar',
 
     'library',
     'book',
@@ -176,3 +184,9 @@ COMPRESS_PRECOMPILERS = (
 
 HAYSTACK_SITECONF = 'DB_MyLibrary.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'simple'
+HAYSTACK_CUSTOM_HIGHLIGHTER = 'DB_MyLibrary.utils.FullTextHighlighter'
+
+INTERNAL_IPS = ('127.0.0.1',)
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+}
