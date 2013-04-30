@@ -1,0 +1,14 @@
+{% extends 'base.djhtml' %}
+
+{% block contents %}
+
+<section id="book">
+    {% if book %}
+        <h2>{{ book.library.name }}</h2>
+        <h1>{{ book.title }}</h1>
+    {% else %}
+        <h2>Illegal Access!</h2>
+    {% endif %}
+</section>
+
+{% endblock %}

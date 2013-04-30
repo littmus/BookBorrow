@@ -1,0 +1,21 @@
+{% extends 'base.djhtml' %}
+
+{% block contents %}
+
+<section id="library">
+    <div>
+        <h1>{{ library.name }}</h1>
+        {% ifequal user.pk library.user.pk %}
+        <a class="btn pull-right" href="/book/add/">Add Book</a>
+        {% endifequal %}
+    </div>
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="/book/{{ book.id }}/">{{ book.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+{% endblock %}

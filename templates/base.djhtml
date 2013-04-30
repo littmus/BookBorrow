@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+        <title> {% block title %} Library {% endblock %} </title>
+
+        {% load compress %}
+
+        {% compress css %}
+        <link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap.css" type="text/css" />
+        <link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap-responsive.min.css" type="text/css" />
+        <link rel="stylesheet" href="{{STATIC_URL}}css/base.css" type="text/css" />
+        {% block cssfiles %}
+
+        {% endblock %}
+
+        {% endcompress %}
+
+        {% compress js %}
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.9.1.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js" charset="utf-8"></script>
+        {% block jsfiles %}
+        {% endblock %}
+        {% endcompress %}
+    </head>
+
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="/">Library</a>
+
+                    <div class="nav-collapse">
+                        <form class="navbar-search pull-left" action="/search/">
+                            <input type="text" class="search-query span2" name="q" placeholder="Search">
+                        </form>
+
+                        {% if user.is_authenticated %}
+                        <ul class="nav pull-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.last_name }} <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">Setting</a>
+                                        <a href="/account/logout_ok/">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>                       
+                        {% else %}
+                        <form class="navbar-form pull-right" method="post" action="/account/login_ok/">
+                            <input type="text" class="span2" name="id" placeholder="ID">
+                            <input type="password" class="span2" name="password" placeholder="Password">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                            <a href="/account/join/" class="btn btn-info">Join</a>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            {% block contents %}
+            {% endblock %}
+
+            <footer>© sdw 2013 </footer>
+        </div>
+    </body>    
+</html>

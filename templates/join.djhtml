@@ -1,0 +1,55 @@
+{% extends "base.djhtml" %}
+
+{% block contents %}
+
+<section id="join">
+    <div class="row">
+        <div class="span8">
+            <form class="form-horizontal" id="join" method="post" action="/account/join_ok/">
+                <fieldset>
+                    <legend> Join </legend>
+
+                    <div class="control-group">
+                        <label class="control-label" for="id"> ID </label>
+                        <div class="controls">
+                            <input type="text" id="id" name="id" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="password"> Password </label>
+                        <div class="controls">
+                            <input type="password" id="password" name="password" rel="popover" data-content="" data-original-title="" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name"> Name </label>
+                        <div class="controls">
+                            <input type="text" id="name" name="name" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="id"> Email </label>
+                        <div class="controls">
+                            <div class="input-append" id="email_box">
+                                <input type="email" id="email", name="email" />
+                                <button class="btn" type="button" id="email_check"> 중복 확인 </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-inverse btn-large"> Join </button>
+                            <a href="/" class="btn btn-large"> Cancel </a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
