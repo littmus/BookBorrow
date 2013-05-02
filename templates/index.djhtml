@@ -7,38 +7,41 @@
     <p>집에 잠들어 있는 책들을 꺼내 보세요!</p>
     <p>도서 공유 플랫폼, Library</p>
 
-    <div class="libraries">
-        <h2>새로 생긴 도서관들</h2>
-        <ul>
-            {% for library in libraries %}
-                <li>
-                    <a href="/library/{{ library.id }}/">{{ library.name }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+    <div class="row-fluid">
+        <div class="span4 libraries">
+            <h2>새로 생긴 도서관들</h2>
+            <ul>
+                {% for library in libraries %}
+                    <li>
+                        <a href="/library/{{ library.id }}/">{{ library.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <div class="new">
-        <h2>새로 등록된 책들</h2>
-        <ul>
-            {% for book in books %}
-                <li>
-                    <a href="/book/{{ book.id }}/">{{ book.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+        <div class="span4 new">
+            <h2>새로 등록된 책들</h2>
+            <ul>
+                {% for book in books %}
+                    <li>
+                        <a href="/book/{{ book.id }}/">{{ book.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
 
-    <div class="pop">
-        <h2>인기 있는 책들</h2>
-        <ul>
-            {% for book in books %}
-                <li>
-                    <a href="/book/{{ book.id }}/">{{ book.title }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="span4 pop">
+            <h2>인기 있는 책들</h2>
+            <ul>
+                {% for book in books %}
+                    <li>
+                        <a href="/book/{{ book.id }}/">{{ book.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
+    
 </section>
 
 {% endblock %}

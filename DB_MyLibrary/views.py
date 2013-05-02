@@ -5,11 +5,15 @@ from book.models import Book
 
 def index(request):
 
-    library_list = Library.objects.all()
-    book_list = Book.objects.all()
+    recently_added_libraries = Library.objects.all()[:5]
+
+    recently_added_books = Book.objects.all()[:5]
+    
+    #popular_books = Book.objects.all()
 
     return render(request, 'index.djhtml', {
-            'libraries': library_list,
-            'books': book_list,
+            'libraries': recently_added_libraries,
+            'books': recently_added_books,
+            #'pop_books': 
         }
     )

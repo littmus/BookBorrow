@@ -11,6 +11,9 @@ class Book(models.Model):
     author = models.TextField(null = True, blank = True)
     isbn = models.CharField(max_length = 13, null = True, blank = True)
 
+    # False : Lending
+    status_lent = models.BooleanField(null = False, default = False)
+
     # if data is empty, get data from naver api and save
     # else, return data
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 class Library(models.Model):
     user = models.ForeignKey(User)
@@ -11,7 +12,16 @@ class Library(models.Model):
 
     created_at = models.DateTimeField(auto_now=True, null=False)
 
-    #stars = models.IntegerField(null = False, default=0)
+    stars = models.IntegerField(null=False, default=0)
+
+    class Meta:
+        ordering = ['-id']
+
+    def get_absolute_url(self):
+        return reverse('library', args=[self.id])
+
+    def get_starts_count(self):
+        return len(Star.objects.filter(library__id=self.id))
 
     def __unicode__(self):
         return self.name
@@ -19,3 +29,5 @@ class Library(models.Model):
 class Star(models.Model):
     library = models.ForeignKey(Library)
     user = models.ForeignKey(User)
+
+    created_at = models.DateTimeField(auto_now=True, null=False)

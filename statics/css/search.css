@@ -1,3 +1,4 @@
-a > span.highlighted {
+span.highlighted {
     color: #ff8000;
+    font-weight: bold;
 }
