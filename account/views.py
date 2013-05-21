@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
+
 def validateEmail(email):
     from django.core.validators import validate_email
     from django.core.exceptions import ValidationError
@@ -17,6 +18,7 @@ def validateEmail(email):
     except ValidationError:
         return False
 
+
 def join_view(request):
 
     if request.user.is_authenticated():
@@ -24,16 +26,17 @@ def join_view(request):
     else:
         return render(request, 'join.djhtml')
 
+
 def checkEmail(request):
 
-    if request.method == "POST" and request.POST.has_key('email'):
+    if request.method == 'POST' and 'email' in request.POST:
         email = request.POST['email']
 
         if email == '':
             return HttpResponse('Please input email')
 
         try:
-            user = User.objects.get(email = email)
+            user = User.objects.get(email=email)
             return HttpResponse('Duplicate email')
         except User.DoesNotExist:
             return HttpResponse('Ok')
@@ -42,13 +45,15 @@ def checkEmail(request):
 class invalidParam(Exception):
     def __init__(self, value):
         self.value = value
+
     def __str__(self):
         return repr(self.value)
+
 
 @csrf_exempt
 def join_ok(request):
 
-    if request.method == "POST":
+    if request.method == 'POST':
         try:
             try:
                 id = request.POST['id']
@@ -69,46 +74,48 @@ def join_ok(request):
                 raise invalidParam('password')
 
             try:
-                User.objects.get(username = id)
+                User.objects.get(username=id)
                 return HttpResponse("<script> alert(\"error1\"); history.go(-1); </script>")
             except User.DoesNotExist:
                 pass
 
-            user = User.objects.create_user(username = id, email = email, password = password)
+            user = User.objects.create_user(username=id, email=email, password=password)
 
             user.last_name = name
             user.save()
 
-            user = authenticate(username = id, password = password)
+            user = authenticate(username=id, password=password)
             login(request, user)
 
             return HttpResponseRedirect('/')
 
-        except invalidParam as K:
+        except invalidParam:
             return HttpResponse("<script> alert(\"error2 " + str(invalidParam) + "\"); history.go(-1); </script>")
 
     else:
         return HttpResponseRedirect('/')
 
+
 def login_view(request):
 
-    if request.method == "GET":
+    if request.user.is_authenticated():
+        return HttpResponseRedirect("/")
 
-        if request.user.is_authenticated():
-            return HttpResponseRedirect("/")
+    return render(request, 'login.djhtml')
+
 
 @csrf_exempt
 def login_ok(request):
 
-    if request.method == "POST" and request.POST.has_key('id') and request.POST.has_key('password'):
+    if request.method == "POST" and ('id' and 'password' in request.POST):
 
         if request.user.is_authenticated():
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect('/')
 
         id = request.POST['id']
         password = request.POST['password']
 
-        user = authenticate(username = id, password = password)
+        user = authenticate(username=id, password=password)
 
         if user is not None:
             if user.is_active:
@@ -117,13 +124,15 @@ def login_ok(request):
 
                 return HttpResponseRedirect('/')
             else:
-                return HttpResponse("<script> alert(\"invalid login\"); history.go(-1); </script>")
+                return HttpResponse('<script> alert("잘못된 계정입니다!"); history.go(-1); </script>')
         else:
-            return HttpResponse("<script> alert(\"invalid login\"); history.go(-1); </script>")
+            return HttpResponse('<script> alert("로그인에 실패했습니다!"); history.go(-1); </script>')
+    else:
+        HttpResponseRedirect('/')
+
 
 def logout_ok(request):
-
-    if request.user.is_authenticated(): 
+    if request.user.is_authenticated():
         logout(request)
 
     return HttpResponseRedirect("/")

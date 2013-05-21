@@ -1,13 +1,17 @@
 {% extends "base.djhtml" %}
 
+{% block jsfiles %}
+<script type="text/coffeescript" src="{{STATIC_URL}}coffee/join.coffee" charset="utf-8"></script>
+{% endblock %}
+
 {% block contents %}
 
 <section id="join">
-    <div class="row">
-        <div class="span8">
-            <form class="form-horizontal" id="join" method="post" action="/account/join_ok/">
+    <div class="row-fluid">
+        <div class="span12">
+            <form class="form-horizontal" id="accounts_join" method="post" action="/account/join_ok/">
                 <fieldset>
-                    <legend> Join </legend>
+                    <legend> 가입하기 </legend>
 
                     <div class="control-group">
                         <label class="control-label" for="id"> ID </label>
@@ -17,14 +21,14 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="password"> Password </label>
+                        <label class="control-label" for="password"> 비밀번호 </label>
                         <div class="controls">
-                            <input type="password" id="password" name="password" rel="popover" data-content="" data-original-title="" />
+                            <input type="password" id="password" name="password" rel="popover" data-content="6자 이상 입력해주세요!" />
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="name"> Name </label>
+                        <label class="control-label" for="name"> 이름 </label>
                         <div class="controls">
                             <input type="text" id="name" name="name" />
                         </div>
@@ -42,8 +46,8 @@
 
                     <div class="control-group">
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-inverse btn-large"> Join </button>
-                            <a href="/" class="btn btn-large"> Cancel </a>
+                            <button type="submit" class="btn btn-inverse btn-large"> 가입! </button>
+                            <a href="/" class="btn btn-large"> 돌아가기 </a>
                         </div>
                     </div>
                 </fieldset>

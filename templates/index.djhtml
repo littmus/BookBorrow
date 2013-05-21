@@ -3,10 +3,25 @@
 {% block contents %}
 
 <section id="index">
-    <h1>Library</h1>
-    <p>집에 잠들어 있는 책들을 꺼내 보세요!</p>
-    <p>도서 공유 플랫폼, Library</p>
 
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>Library</h1>
+            <p>집에 잠들어 있는 책들을 꺼내 보세요!</p>
+            <p>도서 공유 플랫폼, Library</p>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+            {% if user.is_authenticated %}
+                {% if user_library %}
+                    <p><a href="/library/{{ user_library.id }}/">{{ user_library }}</a></p>
+                {% else %}
+                    <p>도서관이 아직 없으시네요, 나만의 도서관을 만들어 보세요! <a href="/library/add/" class="btn btn-primary">만들기</a></p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
     <div class="row-fluid">
         <div class="span4 libraries">
             <h2>새로 생긴 도서관들</h2>
@@ -24,7 +39,7 @@
             <ul>
                 {% for book in books %}
                     <li>
-                        <a href="/book/{{ book.id }}/">{{ book.title }}</a>
+                        <a href="/book/{{ book.id }}/">{{ book.book_info.title }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -35,7 +50,7 @@
             <ul>
                 {% for book in books %}
                     <li>
-                        <a href="/book/{{ book.id }}/">{{ book.title }}</a>
+                        <a href="/book/{{ book.id }}/">{{ book.book_info.title }}</a>
                     </li>
                 {% endfor %}
             </ul>

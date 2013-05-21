@@ -33,6 +33,13 @@
                     <a class="brand" href="/">Library</a>
 
                     <div class="nav-collapse">
+                        {% if user.is_authenticated %}
+                        <ul class="nav">
+                            <li>
+                                <a href="#">내 도서관</a>
+                            </li>
+                        </ul>
+                        {% endif %}
                         <form class="navbar-search pull-left" action="/search/">
                             <input type="text" class="search-query span2" name="q" placeholder="검색" value="{{ request.GET.q }}">
                         </form>
@@ -50,12 +57,10 @@
                             </li>
                         </ul>                       
                         {% else %}
-                        <form class="navbar-form pull-right" method="post" action="/account/login_ok/">
-                            <input type="text" class="span2" name="id" placeholder="ID">
-                            <input type="password" class="span2" name="password" placeholder="Password">
-                            <button type="submit" class="btn btn-primary">Login</button>
-                            <a href="/account/join/" class="btn btn-info">Join</a>
-                        </form>
+                        <div class="pull-right">
+                            <a href="/account/login/" class="btn btn-primary">로그인</a>
+                            <a href="/account/join/" class="btn btn-info">가입하기</a>
+                        </div>
                         {% endif %}
                     </div>
                 </div>

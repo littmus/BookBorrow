@@ -2,7 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+
+class BaseManager(models.Manager):
+    def get_or_none(self, **kwargs):
+        try:
+            return self.get_query_set().get(**kwargs)
+        except:
+            return None
+
+
 class Library(models.Model):
+    objects = BaseManager()
+
     user = models.ForeignKey(User)
 
     name = models.CharField(max_length=100, null=True, blank=True)
@@ -25,6 +36,7 @@ class Library(models.Model):
 
     def __unicode__(self):
         return self.name
+
 
 class Star(models.Model):
     library = models.ForeignKey(Library)

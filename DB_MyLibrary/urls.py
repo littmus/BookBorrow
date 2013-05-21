@@ -1,24 +1,27 @@
 from django.conf.urls import patterns, include, url
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
+from tastypie.api import Api
+
+from .api import *
+
 admin.autodiscover()
 
-urlpatterns = patterns('',
-                        url(r'^$', 'DB_MyLibrary.views.index'),
-                        url(r'^admin/', include(admin.site.urls)),
-                        url(r'^account/', include('account.urls')),
-                        url(r'^library/', include('library.urls')),
-                        url(r'^book/', include('book.urls')),
-                        url(r'^search/', include('haystack.urls')),
+android_api = Api(api_name='android')
+android_api.register(UserResource())
+android_api.register(LibraryResource())
+android_api.register(StarResource())
+android_api.register(BookResource())
+android_api.register(LendResource())
+android_api.register(ReviewResource())
 
-    # Examples:
-    # url(r'^$', 'DB_MyLibrary.views.home', name='home'),
-    # url(r'^DB_MyLibrary/', include('DB_MyLibrary.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+urlpatterns = patterns(
+    '',
+    url(r'^$', 'DB_MyLibrary.views.index'),
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^account/', include('account.urls')),
+    url(r'^library/', include('library.urls')),
+    url(r'^book/', include('book.urls')),
+    url(r'^search/', include('haystack.urls')),
+    url(r'^api/', include(android_api.urls)),
 )

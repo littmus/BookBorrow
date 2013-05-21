@@ -1,0 +1,38 @@
+{% extends 'base.djhtml' %}
+
+{% block contents %}
+
+<section id="library_add">
+    <div class="row-fluid">
+        <div class="span12">
+            <form class="form-horizontal" method="post" action="/library/add_ok/">
+                <fieldset>
+                    <legend>도서관 만들기</legend>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name"> 이름 </label>
+                        <div class="controls">
+                            <input type="text" name="name" maxlength="100">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name"> 소개 </label>
+                        <div class="controls">
+                            <textarea name="intro"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-inverse btn-large"> 만들기 </button>
+                            <a href="/" class="btn btn-large"> 돌아가기 </a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

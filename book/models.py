@@ -4,18 +4,32 @@ from django.core.urlresolvers import reverse
 
 from library.models import Library
 
+
+class BaseManager(models.Manager):
+    def get_or_none(self, **kwargs):
+        try:
+            return self.get_query_set().get(**kwargs)
+        except:
+            return None
+
+
+class BookInfo(models.Model):
+    objects = BaseManager()
+
+    title = models.TextField(null=False, blank=False)
+    author = models.TextField(null=True, blank=True)
+    isbn = models.CharField(max_length=13, null=True, blank=True)
+    image_path = models.CharField(max_length=100, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.title
+
+
 class Book(models.Model):
     library = models.ForeignKey(Library)
+    book_info = models.ForeignKey(BookInfo)
 
-    title = models.TextField(null = False, blank = False)
-    author = models.TextField(null = True, blank = True)
-    isbn = models.CharField(max_length = 13, null = True, blank = True)
-
-    # False : Lending
-    status_lent = models.BooleanField(null = False, default = False)
-
-    # if data is empty, get data from naver api and save
-    # else, return data
+    lend_status = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-id']
@@ -24,7 +38,8 @@ class Book(models.Model):
         return reverse('book', args=[self.id])
 
     def __unicode__(self):
-        return self.title
+        return self.book_info.title
+
 
 class Lend(models.Model):
     book = models.ForeignKey(Book)
@@ -39,10 +54,11 @@ class Lend(models.Model):
         (OVERDUE, 'overdue'),
     )
 
-    status = models.CharField(max_length = 2, choices = LEND_STATUS, default = LENT)
+    status = models.CharField(max_length=2, choices=LEND_STATUS, default=LENT)
 
-    lent_date = models.DateField(auto_now = True, null = False)
-    return_date = models.DateField(null = True)
+    # need to modify... not auto, apply selected date
+    lent_date = models.DateField(auto_now=True, null=False)
+    return_date = models.DateField(null=True)
 
     class Meta:
         ordering = ['-id']

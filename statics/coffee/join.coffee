@@ -1,2 +1,3 @@
-$(document).ready ->
-	
+jQuery ->
+    $(document).ready ->
+        $('input[name="password"]').popover()

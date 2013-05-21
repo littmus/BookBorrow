@@ -1,0 +1,50 @@
+{% extends 'base.djhtml' %}
+
+{% block jsfiles %}
+<script type="text/coffeescript" src="{{STATIC_URL}}coffee/book_add.coffee" charset="utf-8"></script>
+{% endblock %}
+
+{% block contents %}
+
+<section id="library_add">
+    <div class="row-fluid">
+        <div class="span12">
+            <form class="form-horizontal" method="post" action="/book/add_ok/">
+                <fieldset>
+                    <legend>책 등록하기</legend>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name"> ISBN </label>
+                        <div class="controls">
+                            <input type="text" name="isbn" maxlength="13">
+                            <button class="btn" type="button" id="isbn_check"> ISBN으로 검색 </button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name"> 제목 </label>
+                        <div class="controls">
+                            <input type="text" name="title" disabled="disabled">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name"> 글쓴이 </label>
+                        <div class="controls">
+                            <input type="text" name="author" disabled="disabled">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-inverse btn-large"> 만들기 </button>
+                            <a href="/library/{{" class="btn btn-large"> 돌아가기 </a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

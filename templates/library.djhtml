@@ -5,14 +5,15 @@
 <section id="library">
     <div>
         <h1>{{ library.name }}</h1>
-        {% ifequal user.pk library.user.pk %}
+        <p>{{ library.intro }}</p>
+        {% ifequal user library.user %}
         <a class="btn pull-right" href="/book/add/">Add Book</a>
         {% endifequal %}
     </div>
     <ul>
         {% for book in books %}
             <li>
-                <a href="/book/{{ book.id }}/">{{ book.title }}</a>
+                <a href="/book/{{ book.id }}/">{{ book.book_info.title }}</a>
             </li>
         {% endfor %}
     </ul>
