@@ -17,7 +17,7 @@ android_api.register(ReviewResource())
 
 urlpatterns = patterns(
     '',
-    url(r'^$', 'DB_MyLibrary.views.index'),
+    url(r'^$', 'BookBorrow.views.index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^account/', include('account.urls')),
     url(r'^library/', include('library.urls')),

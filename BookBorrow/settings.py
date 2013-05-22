@@ -1,4 +1,4 @@
-# Django settings for DB_MyLibrary project.
+# Django settings for BookBorrow project.
 
 import os
 
@@ -110,10 +110,10 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-ROOT_URLCONF = 'DB_MyLibrary.urls'
+ROOT_URLCONF = 'BookBorrow.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'DB_MyLibrary.wsgi.application'
+WSGI_APPLICATION = 'BookBorrow.wsgi.application'
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.join(SITE_ROOT, '..'), 'templates'),
@@ -185,7 +185,7 @@ COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
 )
 
-HAYSTACK_SITECONF = 'DB_MyLibrary.search_sites'
+HAYSTACK_SITECONF = 'BookBorrow.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'simple'
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'DB_MyLibrary.utils.FullTextHighlighter'
 
