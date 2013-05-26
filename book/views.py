@@ -115,7 +115,7 @@ def book_add_ok(request):
                 return HttpResponse('<script>alert("잘못된 ISBN 입니다!");history.go(-1);</script>')
 
             bookinfo = BookInfo.objects.get(isbn=isbn)
-            
+
             library = Library.objects.get(user=request.user)
             book = Book(library=library, book_info=bookinfo)
             book.save()
@@ -133,13 +133,18 @@ def book_lend(request, book_id):
     except:
         return HttpResponseNotFound()
 
-    new_lend = Lent(book=book, user=request.user)
-    new_lend.save()
-
     return render(
         request,
-        'book.djhtml',
+        'book_lend.djhtml',
         {
             'book': book,
         }
     )
+
+def book_lend_ok(request, book_id):
+    pass
+"""
+    new_lend = Lent(book=book, user=request.user)
+    new_lend.save()
+"""
+

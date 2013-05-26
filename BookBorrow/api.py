@@ -13,7 +13,7 @@ from review.models import *
 class UserResource(ModelResource):
     class Meta:
         queryset = User.objects.all()
-        authentication = BasicAuthentication()
+#        authentication = BasicAuthentication()
         fields = ['id', 'last_name', 'username']
 
 
