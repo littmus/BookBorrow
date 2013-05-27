@@ -1,0 +1,30 @@
+{% extends 'base.djhtml' %}
+
+{% block cssfiles %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/jquery-ui-1.10.3.custom.min.css" type="text/css">
+{% endblock %}
+
+{% block jsfiles %}
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.10.3.custom.min.js" charset="utf-8"></script>
+<script type="text/coffeescript" src="{{STATIC_URL}}coffee/book_lend.coffee" charset="utf-8"></script>
+{% endblock %}
+{% block contents %}
+
+<section id="book_lend">
+    <div class="row">
+        <div class="span12">
+            <from class="form-horizontal" method="post" action="/book/lend_req_ok/">
+                <fieldset>
+                    <legend>책 빌리기</legend>
+
+                    <div class="control-group">
+                        
+                    </div>
+
+                </fieldset>
+                
+        </div>
+    </div>
+</section>
+
+{% endblock %}

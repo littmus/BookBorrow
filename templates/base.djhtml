@@ -3,8 +3,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <title> {% block title %} Library {% endblock %} </title>
+
+        <title> {% block title %} 책보러 {% endblock %} </title>
 
         {% load compress %}
 
@@ -30,7 +30,7 @@
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <a class="brand" href="/">Library</a>
+                    <a class="brand" href="/">책보러</a>
 
                     <div class="nav-collapse">
                         {% if user.is_authenticated %}
@@ -40,8 +40,8 @@
                             </li>
                         </ul>
                         {% endif %}
-                        <form class="navbar-search pull-left" action="/search/">
-                            <input type="text" class="search-query span2" name="q" placeholder="검색" value="{{ request.GET.q }}">
+                        <form class="navbar-search pull-left" action="{% url "haystack_search" %}">
+                            <input type="text" class="search-query span2" name="q" placeholder="검색" value="{{ q }}">
                         </form>
 
                         {% if user.is_authenticated %}
@@ -50,12 +50,12 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.last_name }} <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#">Setting</a>
-                                        <a href="/account/logout_ok/">Logout</a>
+                                        <a href="#">설정</a>
+                                        <a href="/account/logout_ok/">로그아웃</a>
                                     </li>
                                 </ul>
                             </li>
-                        </ul>                       
+                        </ul>
                         {% else %}
                         <div class="pull-right">
                             <a href="/account/login/" class="btn btn-primary">로그인</a>

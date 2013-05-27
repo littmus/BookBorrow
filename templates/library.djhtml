@@ -7,7 +7,7 @@
         <h1>{{ library.name }}</h1>
         <p>{{ library.intro }}</p>
         {% ifequal user library.user %}
-        <a class="btn pull-right" href="/book/add/">Add Book</a>
+        <a class="btn pull-right" href="/book/add/">책 추가하기</a>
         {% endifequal %}
     </div>
     <ul>

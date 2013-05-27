@@ -14,22 +14,22 @@
                     <legend>책 등록하기</legend>
 
                     <div class="control-group">
-                        <label class="control-label" for="name"> ISBN </label>
+                        <label class="control-label" for="isbn"> ISBN </label>
                         <div class="controls">
-                            <input type="text" name="isbn" maxlength="13">
+                            <input type="text" name="isbn" maxlength="13" autofocus>
                             <button class="btn" type="button" id="isbn_check"> ISBN으로 검색 </button>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="name"> 제목 </label>
+                        <label class="control-label" for="title"> 제목 </label>
                         <div class="controls">
                             <input type="text" name="title" disabled="disabled">
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="name"> 글쓴이 </label>
+                        <label class="control-label" for="author"> 글쓴이 </label>
                         <div class="controls">
                             <input type="text" name="author" disabled="disabled">
                         </div>
@@ -37,7 +37,7 @@
 
                     <div class="control-group">
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-inverse btn-large"> 만들기 </button>
+                            <button type="submit" class="btn btn-inverse btn-large"> 추가하기 </button>
                             <a href="/library/{{" class="btn btn-large"> 돌아가기 </a>
                         </div>
                     </div>

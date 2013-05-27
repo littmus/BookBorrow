@@ -8,7 +8,7 @@
             <span class="label label-warning">대여 중</span>
         {% else %}
             {% ifnotequal request.user book.library.user %}
-                <a href="#" class="btn btn-primary">책 빌리기</a>
+                <a href="/book/{{ book.id }}/lend/" class="btn btn-primary">책 빌리기</a>
             {% endifnotequal %}
         {% endif %}
 

@@ -14,8 +14,10 @@
             <h2>검색 결과</h2>
             {% for result in page.object_list %}
                 <div>
-                    <p><b><a href="{{ result.object.get_absolute_url }}">{% highlight result.object.title with query %}</a></b></p>
-                    <p>{% highlight result.object.author with query %}</p>
+                    <p><b><a href="{{ result.object.get_absolute_url }}">{% highlight result.object with query %}</a></b></p>
+                    {% if result.object.author != None %}
+                        <p>{% highlight result.object.author with query %}</p>
+                    {% endif %}
                 </div>
             {% empty %}
                 <p>결과가 없습니다!</p>

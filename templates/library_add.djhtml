@@ -12,7 +12,7 @@
                     <div class="control-group">
                         <label class="control-label" for="name"> 이름 </label>
                         <div class="controls">
-                            <input type="text" name="name" maxlength="100">
+                            <input type="text" name="name" maxlength="100" autofocus>
                         </div>
                     </div>
 

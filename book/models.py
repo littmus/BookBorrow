@@ -45,16 +45,20 @@ class Lend(models.Model):
     book = models.ForeignKey(Book)
     user = models.ForeignKey(User)
 
+    REQUEST = 'RQ'
     LENT = 'LT'
+    REJECTED = 'RJ'
     RETURNED = 'RT'
     OVERDUE = 'OD'
     LEND_STATUS = (
+        (REQUEST, 'request'),
         (LENT, 'lent'),
+        (REJECTED, 'rejected'),
         (RETURNED, 'returned'),
         (OVERDUE, 'overdue'),
     )
 
-    status = models.CharField(max_length=2, choices=LEND_STATUS, default=LENT)
+    status = models.CharField(max_length=2, choices=LEND_STATUS, default=REQUEST)
 
     # need to modify... not auto, apply selected date
     lent_date = models.DateField(auto_now=True, null=False)

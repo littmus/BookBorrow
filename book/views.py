@@ -10,6 +10,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 
+import BookBorrow.settings
 from .models import *
 from library.models import Library
 
@@ -56,13 +57,16 @@ def book_isbn_search(request):
                 bookinfo.save()
 
                 try:
-                    image_name = 'book_%s.jpg' % bookinfo.id
-                    image_path = '/var/www/media/images/book/%s' % image_name
+                    image_name = '%s.jpg' % bookinfo.isbn
+                    image_path = BookBorrow.settings.SITE_ROOT + '/..'
+                    image_path += BookBorrow.settings.MEDIA_ROOT + BookBorrow.settings.MEDIA_URL
+                    image_path += 'images/book/%s' % image_name
                     urllib.urlretrieve(image_url[:image_url.find('?')], image_path)
                     bookinfo.image_path = image_name
                     bookinfo.save()
 
-                except:
+                except Exception as e:
+                    print str(e)
                     pass
 
             bookinfo_data = serializers.serialize('json', [bookinfo, ])
@@ -115,7 +119,7 @@ def book_add_ok(request):
                 return HttpResponse('<script>alert("잘못된 ISBN 입니다!");history.go(-1);</script>')
 
             bookinfo = BookInfo.objects.get(isbn=isbn)
-            
+
             library = Library.objects.get(user=request.user)
             book = Book(library=library, book_info=bookinfo)
             book.save()
@@ -133,13 +137,18 @@ def book_lend(request, book_id):
     except:
         return HttpResponseNotFound()
 
-    new_lend = Lent(book=book, user=request.user)
-    new_lend.save()
-
     return render(
         request,
-        'book.djhtml',
+        'book_lend.djhtml',
         {
             'book': book,
         }
     )
+
+def book_lend_ok(request, book_id):
+    pass
+"""
+    new_lend = Lent(book=book, user=request.user)
+    new_lend.save()
+"""
+
