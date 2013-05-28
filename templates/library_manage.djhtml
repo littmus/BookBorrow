@@ -1,0 +1,68 @@
+{% extends 'base.djhtml' %}
+
+{% block contents %}
+
+<section id="library_manage">
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>{{ library.name }}</h1>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#books" data-toggle="tab">도서 목록</a></li>
+                <li><a href="#lents_req" data-toggle="tab">대여 요청</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="books">
+                    <h2>도서 목록</h2>
+                    <table class="table">
+                        <tr>
+                            <th>제목</th>
+                            <th>글쓴이</th>
+                            <th>상태</th>
+                        </tr>
+                    {% for book in library_books %}
+                        <tr>
+                            <td><a href="{{book.get_absolute_url}}">{{ book.book_info.title }}</a></td>
+                            <td>{{ book.book_info.author }}</td>
+                            <td>
+                                {% if book.lend_status %}
+                                대여 중
+                                {% else %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+                <div class="tab-pane" id="lents_req">
+                    <h2>대여 요청</h2>
+                    <table class="table">
+                        <tr>
+                            <th>제목</th>
+                            <th>빌린 사람</th>
+                            <th>대여 시작일</th>
+                            <th>대여 반납일</th>
+                            <th>동작</th>
+                        </tr>
+                    {% for lent in lent_requests %}
+                        <tr>
+                            <td><a href="{{lent.book.get_absolute_url}}">{{ lent.book.book_info.title }}</a></td>
+                            <td>{{ lent.user.last_name }}</td>
+                            <td>{{ lent.lent_date|date:"Y-m-d" }}</td>
+                            <td>{{ lent.return_date|date:"Y-m-d" }}</td>
+                            <td>
+                                <a class="btn btn-small btn-primary" href="/book/lend/{{lent.id}}/lend_process/ok/">
+                                    <i class="icon-white icon-ok"></i>
+                                </a>
+                                <a class="btn btn-small btn-danger" href="/book/lend/{{lent.id}}/lend_process/reject/">
+                                    <i class="icon-white icon-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

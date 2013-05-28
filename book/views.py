@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
 import json
 import urllib
 import urllib2
@@ -8,12 +9,15 @@ import xml.etree.ElementTree
 from django.core import serializers
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
 import BookBorrow.settings
 from .models import *
 from library.models import Library
 
+def HttpAlertResponse(msg):
+    return HttpResponse('<script>alert("%s");history.go(-1);</script>' % msg)
 
 @csrf_exempt
 def book_isbn_search(request):
@@ -116,7 +120,7 @@ def book_add_ok(request):
             isbn = request.POST['isbn']
 
             if len(isbn) != 10 and len(isbn) != 13:
-                return HttpResponse('<script>alert("잘못된 ISBN 입니다!");history.go(-1);</script>')
+                return HttpAlertResponse('잘못된 ISBN 입니다!')
 
             bookinfo = BookInfo.objects.get(isbn=isbn)
 
@@ -126,16 +130,15 @@ def book_add_ok(request):
 
             return HttpResponseRedirect('/library/%s/' % library.id)
 
-
     return HttpResponseRedirect('/')
 
 
+@login_required
 def book_lend(request, book_id):
 
-    try:
-        book = Book.objects.get(id=book_id)
-    except:
-        return HttpResponseNotFound()
+    book = Book.objects.get_or_none(id=book_id)
+    if book is None:
+        return HttpAlertResponse('존재하지 않는 책 입니다!')
 
     return render(
         request,
@@ -145,10 +148,57 @@ def book_lend(request, book_id):
         }
     )
 
-def book_lend_ok(request, book_id):
-    pass
-"""
-    new_lend = Lent(book=book, user=request.user)
-    new_lend.save()
-"""
+@csrf_exempt
+def book_lend_req_ok(request, book_id):
 
+    if request.method == 'POST' and request.user.is_authenticated():
+        if ('start_date' and 'return_date') in request.POST:
+
+            lend_book = Book.objects.get_or_none(id=book_id)
+
+            if lend_book is None:
+                return HttpAlertResponse('존재하지 않는 책 입니다!')
+            if lend_book.lend_status is True:
+                return HttpAlertResponse('대여 중인 책 입니다!')
+
+            s_date = request.POST['start_date'].split('-')
+            s_date = map(lambda x: int(x), s_date)
+            r_date = request.POST['return_date'].split('-')
+            r_date = map(lambda x: int(x), r_date)
+
+            start_date = date(s_date[0], s_date[1], s_date[2])
+            return_date = date(r_date[0], r_date[1], r_date[2])
+
+            new_lend = Lend()
+            new_lend.book = lend_book
+            new_lend.user = request.user
+            new_lend.lent_date = start_date
+            new_lend.return_date = return_date
+            new_lend.save()
+
+            return HttpResponseRedirect(lend_book.get_absolute_url())
+    return HttpResponseRedirect('/')
+
+
+def book_lend_process(request, lend_id, lend_action):
+    lend_actions = ['ok', 'reject']
+    if request.user.is_authenticated():
+
+        lend = Lend.objects.get_or_none(id=lend_id)
+        if lend is None:
+            return HttpAlertResponse('대여 요청이 존재하지 않습니다!')
+
+        if lend_action not in lend_actions:
+            return HttpAlertResponse('잘못된 동작입니다!')
+
+        if lend_action == 'ok':
+            lend.status = 'LT'
+            lend.book.lend_status = True
+        elif lend_action == 'reject':
+            lend.status = 'RJ'
+
+        lend.save()
+
+        return HttpAlertResponse('처리되었습니다!')
+
+    return HttpResponseRedirect('/')

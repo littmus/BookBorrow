@@ -3,20 +3,35 @@
 {% block contents %}
 
 <section id="library">
-    <div>
-        <h1>{{ library.name }}</h1>
-        <p>{{ library.intro }}</p>
-        {% ifequal user library.user %}
-        <a class="btn pull-right" href="/book/add/">책 추가하기</a>
-        {% endifequal %}
+    <div class="row-fluid">
+        <div class="span8">
+            <h1>{{ library.name }}</h1>
+            <p>{{ library.intro }}</p>
+        </div>
+        <div class="span4">
+            {% ifequal user library.user %}
+            <div class="btn-group pull-right">
+                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+                관리 메뉴 <span class="caret"></span>
+                </a>
+                
+                <ul class="dropdown-menu">
+                    <li><a href="/book/add/">책 추가하기</a></li>
+                    <li><a href="{{library.get_absolute_url}}manage/">관리하기</a></li>
+                </ul>
+            </div>
+            {% endifequal %}
+        </div>
+        <div class="span12">
+            <ul>
+                {% for book in books %}
+                    <li>
+                        <a href="{{book.get_absolute_url}}">{{ book.book_info.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <ul>
-        {% for book in books %}
-            <li>
-                <a href="/book/{{ book.id }}/">{{ book.book_info.title }}</a>
-            </li>
-        {% endfor %}
-    </ul>
 </section>
 
 {% endblock %}

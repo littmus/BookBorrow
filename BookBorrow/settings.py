@@ -181,6 +181,8 @@ LOGGING = {
     }
 }
 
+LOGIN_URL = '/account/login/'
+
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
 )

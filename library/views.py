@@ -2,6 +2,7 @@
 
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -43,11 +44,10 @@ def library_add(request):
         return render(
             request,
             'library_add.djhtml',
-            {
-            }
         )
     else:
         return HttpResponseRedirect('/')
+
 
 @csrf_exempt
 def library_add_ok(request):
@@ -72,3 +72,30 @@ def library_add_ok(request):
         return HttpResponseRedirect('/library/%s' % library.id)
 
     return HttpResponseRedirect('/')
+
+
+@login_required
+def library_manage(request, library_id):
+
+    if request.user.is_authenticated():
+        library = Library.objects.get_or_none(id=library_id)
+        if library is None:
+            return HttpResponseRedirect('/')
+
+        if library.user != request.user:
+            return HttpResponseRedirect('/')
+
+        library_books = Book.objects.filter(library__id=library_id)
+        lent_requests = Lend.objects.filter(book__library__id=library_id, status='RQ')
+
+        return render(
+            request,
+            'library_manage.djhtml',
+            {
+                'library': library,
+                'library_books': library_books,
+                'lent_requests': lent_requests,
+            },
+        )
+    else:
+        return HttpResponseRedirect('/')

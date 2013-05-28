@@ -13,16 +13,35 @@
 <section id="book_lend">
     <div class="row">
         <div class="span12">
-            <from class="form-horizontal" method="post" action="/book/lend_req_ok/">
+            <form class="form-horizontal" method="post" action="/book/{{book.id}}/lend_req_ok/">
                 <fieldset>
                     <legend>책 빌리기</legend>
 
                     <div class="control-group">
-                        
+                        <h2>{{ book.book_info.title }}</h2>
                     </div>
 
+                    <div class="control-group">
+                        <label class="control-label" for="start_date"> 대여일 </label>
+                        <div class="controls">
+                            <input type="text" name="start_date" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="return_date"> 반납일 </label>
+                        <div class="controls">
+                            <input type="text" name="return_date" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-inverse btn-large"> 빌리기 </button>
+                            <a href="/library/{{" class="btn btn-large"> 돌아가기 </a>
+                        </div>
+                    </div>
                 </fieldset>
-                
+            </form>
         </div>
     </div>
 </section>

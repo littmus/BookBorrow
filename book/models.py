@@ -26,6 +26,8 @@ class BookInfo(models.Model):
 
 
 class Book(models.Model):
+    objects = BaseManager()
+
     library = models.ForeignKey(Library)
     book_info = models.ForeignKey(BookInfo)
 
@@ -42,6 +44,8 @@ class Book(models.Model):
 
 
 class Lend(models.Model):
+    objects = BaseManager()
+
     book = models.ForeignKey(Book)
     user = models.ForeignKey(User)
 
@@ -61,11 +65,12 @@ class Lend(models.Model):
     status = models.CharField(max_length=2, choices=LEND_STATUS, default=REQUEST)
 
     # need to modify... not auto, apply selected date
-    lent_date = models.DateField(auto_now=True, null=False)
-    return_date = models.DateField(null=True)
+    created_date = models.DateTimeField(auto_now=True)
+    lent_date = models.DateField(null=False)
+    return_date = models.DateField(null=False)
 
     class Meta:
         ordering = ['-id']
 
     def __unicode__(self):
-        return '%s : %s - %s (%s)' % (self.book.title, str(self.lent_date), str(self.return_date), self.status)
+        return '%s : %s - %s (%s)' % (self.book.book_info.title, str(self.lent_date), str(self.return_date), self.status)
