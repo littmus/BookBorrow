@@ -17,13 +17,6 @@
         {% endblock %}
 
         {% endcompress %}
-
-        {% compress js %}
-        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.9.1.min.js" charset="utf-8"></script>
-        <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js" charset="utf-8"></script>
-        {% block jsfiles %}
-        {% endblock %}
-        {% endcompress %}
     </head>
 
     <body>
@@ -72,5 +65,12 @@
 
             <!--<footer>© sdw 2013 </footer>-->
         </div>
+
+        {% compress js %}
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.9.1.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js" charset="utf-8"></script>
+        {% block jsfiles %}
+        {% endblock %}
+        {% endcompress %}
     </body>
 </html>

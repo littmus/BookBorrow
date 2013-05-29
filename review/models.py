@@ -10,7 +10,7 @@ class Review(models.Model):
     title = models.CharField(max_length = 100, blank = True)
     body = models.TextField(blank = True)
 
-    # rating : 1 ~ 5
+    # rating : 1 ~ MAX_RATING
     MAX_RATING = 5
     RATING_CHOICES = zip(range(1, MAX_RATING + 1), range(1, MAX_RATING + 1))
     rating = models.PositiveIntegerField(choices = RATING_CHOICES, default = 1)

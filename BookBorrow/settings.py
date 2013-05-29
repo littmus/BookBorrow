@@ -184,6 +184,8 @@ LOGGING = {
 
 LOGIN_URL = '/account/login/'
 
+API_LIMIT_PER_PAGE = 50
+
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
 )

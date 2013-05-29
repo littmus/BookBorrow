@@ -1,0 +1,11 @@
+{% verbatim %}
+    <script id="books-template" type="text/x-handlebars-template">
+        {{#each books}}
+        <div class="book" data-id="{{id}}">
+            <p><b>{{ book_info.title }}</b></p>
+            <p>{{ book_info.author }}</p>
+            <img src="/media/images/book/{{ book_info.image_path }}" />
+        </div>
+        {{/each}}
+    </script>
+{% endverbatim %}

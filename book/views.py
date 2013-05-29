@@ -62,9 +62,10 @@ def book_isbn_search(request):
 
                 try:
                     image_name = '%s.jpg' % bookinfo.isbn
-                    image_path = BookBorrow.settings.SITE_ROOT + '/..'
-                    image_path += BookBorrow.settings.MEDIA_ROOT + BookBorrow.settings.MEDIA_URL
+                    #image_path = BookBorrow.settings.SITE_ROOT + '/..'
+                    image_path = BookBorrow.settings.MEDIA_ROOT + '/..' + BookBorrow.settings.MEDIA_URL
                     image_path += 'images/book/%s' % image_name
+                    print image_path
                     urllib.urlretrieve(image_url[:image_url.find('?')], image_path)
                     bookinfo.image_path = image_name
                     bookinfo.save()
@@ -181,7 +182,7 @@ def book_lend_req_ok(request, book_id):
 
 
 def book_lend_process(request, lend_id, lend_action):
-    lend_actions = ['ok', 'reject']
+    lend_actions = ['ok', 'reject', 'returned']
     if request.user.is_authenticated():
 
         lend = Lend.objects.get_or_none(id=lend_id)
@@ -197,9 +198,15 @@ def book_lend_process(request, lend_id, lend_action):
             lend.book.save()
         elif lend_action == 'reject':
             lend.status = 'RJ'
+        elif lend_action == 'returned':
+            lend.status = 'RT'
+            lend.book.lend_status = False
+            lend.book.save()
 
         lend.save()
 
-        return HttpAlertResponse('처리되었습니다!')
+        library_id = Library.objects.get(user=request.user).id
+
+        return HttpResponseRedirect('/library/%s/manage/' % library_id)
 
     return HttpResponseRedirect('/')

@@ -1,38 +1,57 @@
 {% extends 'base.djhtml' %}
 
+{% block cssfiles %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/library.css" type="text/css" />
+{% endblock %}
+
+{% block jsfiles %}
+<script>
+var apiLimitPerPage = 10
+</script>
+<script type="text/javascript" src="{{STATIC_URL}}js/handlebars.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/book_tile.js" charset="utf-8"></script>
+<script type="text/coffeescript" src="{{STATIC_URL}}coffee/library.coffee" charset="utf-8"></script>
+{% endblock %}
+
 {% block contents %}
 
 <section id="library">
     <div class="row-fluid">
         <div class="span8">
             <h1>{{ library.name }}</h1>
-            <p>{{ library.intro }}</p>
         </div>
         <div class="span4">
+            <ul class="inline pull-right">
+                <li>
+                    <button type="button" class="btn btn-small btn-inverse pull-right" onclick="starLibrary({{library.id}})">
+                        <i class="icon-white icon-star-empty"></i>
+                    </button>
+                </li>
             {% ifequal user library.user %}
-            <div class="btn-group pull-right">
-                <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
-                    관리 메뉴 <span class="caret"></span>
-                </a>
-                
-                <ul class="dropdown-menu">
-                    <li><a href="/book/add/">책 추가하기</a></li>
-                    <li><a href="{{library.get_absolute_url}}manage/">관리하기</a></li>
-                </ul>
-            </div>
+                <li>
+                    <div class="btn-group pull-right">
+                        <a class="btn btn-small btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+                            관리 메뉴 <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu">
+                            <li><a href="/book/add/">책 추가하기</a></li>
+                            <li><a href="{{library.get_absolute_url}}manage/">관리하기</a></li>
+                        </ul>
+                    </div>
+                </li>
             {% endifequal %}
-            <button type="button" class="btn btn-small btn-inverse" id="star"><i class="icon-white icon-star"></i></button>
-            <button type="button" class="btn btn-small" id="star"><i class="icon icon-star"></i><i class="icon icon-remove"></i></button>
-        </div>
-        <div class="span12">
-            <ul>
-                {% for book in books %}
-                    <li>
-                        <a href="{{book.get_absolute_url}}">{{ book.book_info.title }}</a>
-                    </li>
-                {% endfor %}
             </ul>
         </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12 well">
+            <p>{{ library.intro }}</p>
+        </div>
+    </div>
+    <div class="row-fluid" id="books">
+        {% include 'includes/books.djhtml' %}
+        <div class="spinner"></div>
     </div>
 </section>
 
