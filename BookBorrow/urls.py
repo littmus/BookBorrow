@@ -1,5 +1,7 @@
-from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
+from django.conf.urls import patterns, include, url
 
 from tastypie.api import Api
 
@@ -24,4 +26,4 @@ urlpatterns = patterns(
     url(r'^book/', include('book.urls')),
     url(r'^search/', include('haystack.urls')),
     url(r'^api/', include(android_api.urls)),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

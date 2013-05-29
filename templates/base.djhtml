@@ -40,7 +40,7 @@
                             </li>
                         </ul>
                         {% endif %}
-                        <form class="navbar-search pull-left" action="{% url "haystack_search" %}">
+                        <form class="navbar-search pull-left" action="{% url haystack_search %}">
                             <input type="text" class="search-query span2" name="q" placeholder="검색" value="{{ q }}">
                         </form>
 
@@ -70,7 +70,7 @@
             {% block contents %}
             {% endblock %}
 
-            <footer>© sdw 2013 </footer>
+            <!--<footer>© sdw 2013 </footer>-->
         </div>
-    </body>    
+    </body>
 </html>

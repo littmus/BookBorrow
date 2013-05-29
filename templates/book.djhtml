@@ -15,9 +15,9 @@
     </div>
     <div class="span12">
         <h3>{{ book.library.name }}</h3>
-        <h2>{{ book.book_info.title }} - {{ book.book_info.author }}</h2>
+        <p>{{ book.book_info.title }} - {{ book.book_info.author }}</p>
 
-        <img src="/media/images/book/{{ book.book_info.image_path }}" />
+        <img src="{{MEDIA_URL}}images/book/{{ book.book_info.image_path }}" />
     </div>
 </section>
 

@@ -194,6 +194,7 @@ def book_lend_process(request, lend_id, lend_action):
         if lend_action == 'ok':
             lend.status = 'LT'
             lend.book.lend_status = True
+            lend.book.save()
         elif lend_action == 'reject':
             lend.status = 'RJ'
 
