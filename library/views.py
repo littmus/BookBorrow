@@ -74,6 +74,23 @@ def library_add_ok(request):
     return HttpResponseRedirect('/')
 
 
+def library_star(request, library_id):
+
+    if request.user.is_authenticated() and request.method == 'POST':
+        try:
+            star = Star.objects.get_or_none(library__id=library_id, user=request.user)
+            if star is None:
+                library = Library.objects.get(id=library_id)
+                new_star = Star(library=library, user=request.user)
+            else:
+                star.delete()
+
+            return HttpResponse('0')
+        except:
+            pass
+
+    return HttpResponse('-1')
+
 @login_required
 def library_manage(request, library_id):
 

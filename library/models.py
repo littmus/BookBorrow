@@ -18,8 +18,7 @@ class Library(models.Model):
 
     name = models.CharField(max_length=100, null=True, blank=True)
     intro = models.TextField(null=True, blank=True)
-
-    #location = models.
+    #location = models.CharField(max_length=100, null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now=True, null=False)
 
@@ -39,6 +38,8 @@ class Library(models.Model):
 
 
 class Star(models.Model):
+    objects = BaseManager()
+
     library = models.ForeignKey(Library)
     user = models.ForeignKey(User)
 
