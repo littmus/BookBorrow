@@ -191,7 +191,8 @@ COMPRESS_PRECOMPILERS = (
 )
 
 HAYSTACK_SITECONF = 'BookBorrow.search_sites'
-HAYSTACK_SEARCH_ENGINE = 'simple'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, 'whoosh_index')
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'BookBorrow.utils.FullTextHighlighter'
 
 INTERNAL_IPS = ('127.0.0.1',)

@@ -44,9 +44,28 @@ $(window).load(function() {
                 'margin-left': rowMargins[sCol],
                 'margin-top':  colHeights[sCol],
             });
+
+            text = block.children('.text')
+            text_top = block.height() - text.height() - 10
+            text.css({
+                'top': text_top,
+            })
+
             block.fadeIn(300);
             colHeights[sCol] += block.height()+(blockMargin);
+
         }
+
+        $('.book').each(function() {
+            var book = $(this);
+            book.off('hover')
+            book.hover(function() {
+                book.children('.text').stop(true, true).fadeIn(300);
+            }, function() {
+                book.children('.text').stop(true, false).fadeOut(300);
+            });
+
+        });
 
         $('.spinner').css('display', 'none');
         blockContainer.css('height', colHeights.sort().slice(-1)[0]);
@@ -74,6 +93,7 @@ $(window).load(function() {
 
         // Fetch our pins from the api using our current offset
         var apiUrl = '/api/android/book/?offset='+String(offset);
+        apiUrl += '&library_id=' + libraryId;
         $.get(apiUrl, function(books) {
             // Set which items are editable by the current user
             //for (var i=0; i < books.objects.length; i++)
@@ -91,6 +111,11 @@ $(window).load(function() {
                 $(this).fadeIn(300);
                 tileLayout();
             });
+
+            var empty_msg = "<div class='span12'><div class='alert alert-error alert-block'>등록된 책이 없습니다!</div></div>";
+            if (books.objects.length == 0) {
+                $('#books').prepend(empty_msg);
+            }
 
             if (books.objects.length < apiLimitPerPage) {
                 $('.spinner').css('display', 'none');

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 
 from tastypie import fields
-from tastypie.resources import ModelResource, ALL_WITH_RELATIONS
+from tastypie.resources import ModelResource, ALL_WITH_RELATIONS, ALL
 from tastypie.authorization import DjangoAuthorization
 from tastypie.authentication import BasicAuthentication
 
@@ -27,6 +27,7 @@ class LibraryResource(DefaultModelResource):
 
     class Meta:
         queryset = Library.objects.all()
+        resource_name = 'library'
 #        authentication = BasicAuthentication()
 #        authorization = DjangoAuthorization()
 
@@ -41,14 +42,23 @@ class StarResource(DefaultModelResource):
 class BookInfoResource(DefaultModelResource):
     class Meta:
         queryset = BookInfo.objects.all()
+        excludes = ['isbn']
         resource_name = 'book_info'
+        include_resource_uri = False
 
 
 class BookResource(DefaultModelResource):
     book_info = fields.ForeignKey(BookInfoResource, 'book_info', full=True)
 
+    def build_filters(self, filters=None):
+        orm_filters = super(BookResource, self).build_filters(filters)
+        if filters and 'library_id' in filters:
+            orm_filters['library__id'] = filters['library_id']
+
+        return orm_filters
+
     class Meta:
-        queryset = Book.objects.select_related()
+        queryset = Book.objects.all()
 #        authentication = BasicAuthentication()
 #        authorization = DjangoAuthorization()
 

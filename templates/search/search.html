@@ -2,6 +2,11 @@
 
 {% block cssfiles %}
 <link rel="stylesheet" href="{{STATIC_URL}}css/search.css" type="text/css">
+<style>
+    .book_img {
+        width: 150px;
+    }
+</style>
 {% endblock %}
 
 {% load highlight %}
@@ -10,19 +15,37 @@
 
 <section id="search">
     <div class="row-fluid">
-        {% if query %}
+        <div class="span12">
             <h2>검색 결과</h2>
-            {% for result in page.object_list %}
-                <div>
-                    <p><b><a href="{{ result.object.get_absolute_url }}">{% highlight result.object with query %}</a></b></p>
-                    {% if result.object.author != None %}
-                        <p>{% highlight result.object.author with query %}</p>
+        </div>
+    </div>
+    <div class="row-fluid">
+        <div class="span12">
+        {% if query %}
+            <table class="table">
+                {% for result in page.object_list %}
+                <tr>
+                    <td class="book_img">
+                        <a href="{{ result.object.get_absolute_url }}">
+                            <img src="{{MEDIA_URL}}images/book/{{ result.object.book_info.image_path }}" />
+                        </a>
+                    </td>
+                    <td>
+                        <p><b><a href="{{ result.object.get_absolute_url }}">{% highlight result.object with query %}</a></b></p>
+                    {% if result.object.book_info.author != None %}
+                        <p>{% highlight result.object.book_info.author with query %}</p>
                     {% endif %}
-                </div>
-            {% empty %}
-                <p>결과가 없습니다!</p>
-            {% endfor %}
-
+                    {% if result.object.library != None %}
+                        <p>{{ result.object.library.name }}</p>
+                    {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                    <tr>
+                        <td><div class="alert alert-error alert-block"><h2>검색 결과가 없습니다!</h2></div></td>
+                    </tr>
+                {% endfor %}
+            </table>
             {% if page.has_previous or page.has_next %}
                 <div>
                     {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
@@ -31,12 +54,11 @@
                 </div>
             {% endif %}
         {% else %}
-            <div class="span12">
-                <div class="alert alert-error">
-                    <h2>검색어를 입력해 주세요!</h2>
-                </div>
+            <div class="alert alert-error alert-block">
+                <h2>검색어를 입력해 주세요!</h2>
             </div>
         {% endif %}
+        </div>
     </div>
 </section>
 

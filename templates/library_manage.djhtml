@@ -1,12 +1,20 @@
 {% extends 'base.djhtml' %}
 
+{% block cssfiles %}
+<style>
+    .manage_nav {
+        margin-top: 25px;
+    }
+</style>
+{% endblock %}
+
 {% block contents %}
 
 <section id="library_manage">
     <div class="row-fluid">
         <div class="span12">
             <h1>{{ library.name }}</h1>
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs manage_nav">
                 <li class="active"><a href="#books" data-toggle="tab">도서 목록</a></li>
                 <li><a href="#lents_req" data-toggle="tab">대여 요청</a></li>
                 <li><a href="#lents" data-toggle="tab">대여 목록</a></li>
@@ -19,16 +27,24 @@
                             <th>제목</th>
                             <th>글쓴이</th>
                             <th>상태</th>
+                            <th>동작</th>
                         </tr>
                     {% for book in library_books %}
                         <tr>
-                            <td><a href="{{book.get_absolute_url}}">{{ book.book_info.title }}</a></td>
+                            <td>
+                                <a href="{{book.get_absolute_url}}">{{ book.book_info.title }}</a>
+                            </td>
                             <td>{{ book.book_info.author }}</td>
                             <td>
                                 {% if book.lend_status %}
                                 대여 중
                                 {% else %}
                                 {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-danger btn-small" href="{{book.get_absolute_url}}delete">
+                                    <i class="icon icon-trash"></i>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

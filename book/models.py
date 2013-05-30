@@ -21,6 +21,17 @@ class BookInfo(models.Model):
     isbn = models.CharField(max_length=13, null=True, blank=True)
     image_path = models.CharField(max_length=100, null=True, blank=True)
 
+    def get_avg_review_rating(self):
+        from review.models import Review
+        reviews = Review.objects.filter(book_info=self)
+        ratings = [review.rating for review in reviews]
+
+        review_avg_rating = '0.00'
+        if len(ratings) != 0:
+            review_avg_rating = '%.2f' % (reduce(lambda x, y: x + y, ratings) / float(len(ratings)))
+
+        return review_avg_rating
+
     def __unicode__(self):
         return self.title
 
@@ -67,7 +78,6 @@ class Lend(models.Model):
 
     status = models.CharField(max_length=2, choices=LEND_STATUS, default=REQUEST)
 
-    # need to modify... not auto, apply selected date
     created_date = models.DateTimeField(auto_now=True)
     lent_date = models.DateField(null=False)
     return_date = models.DateField(null=False)

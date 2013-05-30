@@ -30,9 +30,6 @@ class Library(models.Model):
     def get_absolute_url(self):
         return reverse('library', args=[self.id])
 
-    def get_starts_count(self):
-        return len(Star.objects.filter(library__id=self.id))
-
     def __unicode__(self):
         return self.name
 

@@ -15,6 +15,8 @@ from django.views.decorators.csrf import csrf_exempt
 import BookBorrow.settings
 from .models import *
 from library.models import Library
+from review.models import Review
+
 
 def HttpAlertResponse(msg):
     return HttpResponse('<script>alert("%s");history.go(-1);</script>' % msg)
@@ -54,6 +56,8 @@ def book_isbn_search(request):
                 book_data = list((list(element)[0])[7])
 
                 title = book_data[0].text
+                if title.find(' (') > 0:
+                    title = title[:title.find(' (')]
                 image_url = book_data[2].text
                 author = book_data[3].text
 
@@ -87,16 +91,31 @@ def book_isbn_search(request):
 
 def book_view(request, book_id):
 
-    try:
-        book = Book.objects.get(id=book_id)
-    except:
-        return HttpResponseNotFound()
+    book = Book.objects.get_or_none(id=book_id)
+    if book is None:
+        return HttpResponseRedirect('/')
+
+    lend = Lend.objects.get_or_none(book=book, user=request.user, status='RT')
+    hasRead = False
+    if lend is not None:
+        hasRead = True
+
+    reviews = Review.objects.filter(book_info=book.book_info)
+
+    notReviewed = True
+    if len(reviews.filter(user=request.user)) != 0:
+        notReviewed = False
+
+    canReview = (hasRead or (book.library.user == request.user)) and notReviewed
 
     return render(
         request,
         'book.djhtml',
         {
             'book': book,
+            'canReview': canReview,
+            'reviews': reviews,
+            'review_avg_rating': book.book_info.get_avg_review_rating,
         }
     )
 
@@ -132,6 +151,23 @@ def book_add_ok(request):
             return HttpResponseRedirect('/library/%s/' % library.id)
 
     return HttpResponseRedirect('/')
+
+
+@login_required
+def book_delete(request, book_id):
+
+    if request.user.is_authenticated():
+        book = Book.objects.get_or_none(id=book_id)
+        if book is None:
+            pass
+
+        if book.library.user != request:
+            pass
+
+        book.delete()
+
+    else:
+        pass
 
 
 @login_required
@@ -182,7 +218,7 @@ def book_lend_req_ok(request, book_id):
 
 
 def book_lend_process(request, lend_id, lend_action):
-    lend_actions = ['ok', 'reject', 'returned']
+    lend_actions = ['ok', 'reject', 'returned', 'overdue']
     if request.user.is_authenticated():
 
         lend = Lend.objects.get_or_none(id=lend_id)
@@ -202,6 +238,8 @@ def book_lend_process(request, lend_id, lend_action):
             lend.status = 'RT'
             lend.book.lend_status = False
             lend.book.save()
+        elif lend_action == 'overdue':
+            lend.status = 'OD'
 
         lend.save()
 

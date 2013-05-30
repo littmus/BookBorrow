@@ -1,0 +1,16 @@
+{% extends 'base.djhtml' %}
+
+{% block contents %}
+<section id="whatis">
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>책보러</h1>
+            <p class="lead"><em>책</em> + <em>Borrow</em></p>
+            <p>책보러는 '책'과 '빌리다'를 뜻하는 영어 단어 'Borrow'를 '보러'로 나타내어 만들어진 이름 입니다.</p>
+            <p>단어들의 뜻 그대로 <b>'책을 빌리다'</b>라는 뜻과</p>
+            <p>책을 보기 위해 빌려 <b>'보러'</b> 가는 행동이란 뜻을 담고 있는 '책보러'는</p>
+            <p>집 안에 잠들어 있는 책들을 타인과 공유해보면 어떨까 하는 생각에서 태어난 서비스 입니다.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -101,7 +101,14 @@ def login_view(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect("/")
 
-    return render(request, 'login.djhtml')
+    return_to = ''
+    if 'return_to' in request.GET:
+        return_to = request.GET['return_to']
+
+    return render(request, 'login.djhtml',
+        {
+            'return_to': return_to,
+        })
 
 
 @csrf_exempt
@@ -122,7 +129,10 @@ def login_ok(request):
 
                 login(request, user)
 
-                return HttpResponseRedirect('/')
+                if 'return_to' in request.GET:
+                    return HttpResponseRedirect(request.GET['return_to'])
+                else:
+                    return HttpResponseRedirect('/')
             else:
                 return HttpResponse('<script> alert("잘못된 계정입니다!"); history.go(-1); </script>')
         else:

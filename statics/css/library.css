@@ -1,3 +1,7 @@
+.intro {
+    margin-top: 15px;
+}
+
 .book {
     width: 218px;
     position: absolute;
@@ -10,19 +14,26 @@
             box-shadow: 0 1px 0 #bbb;
 }
 
-.book > img {
+.book img {
     -webkit-border-top-left-radius: 3px;
         -moz-border-radius-topleft: 3px;
             border-top-left-radius: 3px;
     -webkit-border-top-right-radius: 3px;
         -moz-border-radius-topright: 3px;
             border-top-right-radius: 3px;
-    cursor: -webkit-zoom-in;
-    cursor:    -moz-zoom-in;
     display: none;
     margin: 0;
     padding: 0;
     width: 218px;
+}
+
+.book .text {
+    width: 208px;
+    position: absolute;
+    padding: 5px;
+    display: none;
+    background-color: #ffffff;
+    opacity: 0.8;
 }
 
 .spinner {

@@ -15,6 +15,22 @@ def HttpAlertResponse(msg):
     return HttpResponse('<script>alert("%s");history.go(-1);</script>' % msg)
 
 
+@login_required
+def library_my(request):
+    if request.user.is_authenticated():
+        library = Library.objects.get_or_none(user=request.user)
+
+        redirect_url = ''
+        if library is not None:
+            redirect_url = library.get_absolute_url()
+        else:
+            redirect_url = '/library/add/'
+
+        return HttpResponseRedirect(redirect_url)
+    else:
+        return HttpResponseRedirect('/account/login/')
+
+
 def library_view(request, library_identifier):
 
     if library_identifier is None:
@@ -28,7 +44,11 @@ def library_view(request, library_identifier):
         else:
             library = Library.objects.get(name=library_identifier)
 
-        book_list = Book.objects.filter(library__id=library.id).order_by('-id')
+        stared = False
+        if request.user.is_authenticated():
+            star = Star.objects.get_or_none(library=library, user=request.user)
+            if star is not None:
+                stared = True
 
     except:
         return HttpResponseRedirect('/')
@@ -37,7 +57,7 @@ def library_view(request, library_identifier):
         request,
         'library.djhtml', {
             'library': library,
-            'books': book_list,
+            'stared': stared,
         }
     )
 
@@ -90,18 +110,43 @@ def library_star(request, library_id):
     if request.user.is_authenticated() and request.method == 'GET':
         try:
             star = Star.objects.get_or_none(library__id=library_id, user=request.user)
+            library = Library.objects.get(id=library_id)
             if star is None:
-                library = Library.objects.get(id=library_id)
                 new_star = Star(library=library, user=request.user)
                 new_star.save()
+                library.stars += 1
+                library.save()
+                return HttpResponse('star')
             else:
                 star.delete()
-
-            return HttpResponse('0')
+                library.stars -= 1
+                library.save()
+                return HttpResponse('unstar')
         except:
             pass
 
     return HttpResponse('-1')
+
+
+def library_star_list(request, library_id):
+    library = Library.objects.get_or_none(id=library_id)
+    if library is None:
+        pass
+    stared_users = Star.objects.filter(library=library)
+    users = []
+
+    for user in stared_users:
+        users.append(user.user)
+
+    return render(
+        request,
+        'library_star_list.djhtml',
+        {
+            'library': library,
+            'stared_users': users,
+        },
+    )
+
 
 @login_required
 def library_manage(request, library_id):

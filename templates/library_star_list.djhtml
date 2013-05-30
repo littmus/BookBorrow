@@ -1,0 +1,17 @@
+{% extends 'base.djhtml' %}
+
+{% block contents %}
+<section id="library_star_list">
+    <div class="row-fluid">
+        <div class="span12">
+            <h2>{{ library.name }}</h2>
+            <p class="lead">별을 준 사용자들</p>
+            <ul>
+            {% for user in stared_users %}
+                <li><a href="#">{{ user.last_name }}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %}

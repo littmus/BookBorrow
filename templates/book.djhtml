@@ -1,23 +1,85 @@
 {% extends 'base.djhtml' %}
 
+{% block cssfiles %}
+<style>
+    input[name="review_star"] {
+        display:none;
+    }
+    .book_info {
+        margin-top: 25px;
+    }
+    .reviews {
+        list-style: none;
+        margin-left: 0px;
+    }
+</style>
+{% endblock %}
+
+{% block jsfiles %}
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.raty.js" charset="utf-8"></script>
+<script type="text/coffeescript" src="{{STATIC_URL}}coffee/book.coffee" charset="utf-8"></script>
+<script>
+var BOOK_INFO_ID = {{ book.book_info.id }};
+var REVIEW_LEN = {{ reviews|length }};
+</script>
+{% endblock %}
+
 {% block contents %}
 
 <section id="book">
-    <div class="span12">
-        {% if book.lend_status %}
-            <span class="badge badge-warning">대여 중</span>
-        {% else %}
-            {% ifnotequal request.user book.library.user %}
-                <a href="/book/{{ book.id }}/lend/" class="btn btn-primary">책 빌리기</a>
-            {% endifnotequal %}
-        {% endif %}
-
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>{{ book.library.name }}</h1>
+        </div>
     </div>
-    <div class="span12">
-        <h3>{{ book.library.name }}</h3>
-        <p>{{ book.book_info.title }} - {{ book.book_info.author }}</p>
-
-        <img src="{{MEDIA_URL}}images/book/{{ book.book_info.image_path }}" />
+    <div class="row-fluid book_info">
+        <div class="span4">
+            <img src="{{MEDIA_URL}}images/book/{{ book.book_info.image_path }}" />
+        </div>
+        <div class="span4">
+        {% if book.lend_status %}
+            <button class="btn btn-primary disabled">대여 중</button>
+        {% else %}
+            {% if request.user != book.library.user %}
+                <a href="/book/{{ book.id }}/lend/" class="btn btn-primary">책 빌리기</a>
+            {% else %}
+                <button class="btn btn-primary disabled">책 빌리기</button>
+            {% endif %}
+        {% endif %}
+        {% if canReview %}
+            <a class="btn btn-success pull-right" href="#review" data-toggle="modal">리뷰 쓰기</a>
+            <div id="review" class="modal hide fade">
+                <div class="modal-header">
+                    <h3>리뷰 - {{ book.book_info.title }}</h3>
+                </div>
+                <div class="modal-body">
+                    <div id="review_star"></div>
+                    <input type="text" name="review_star" value="0" />
+                    <textarea class="input-block-level" name="review_body"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">닫기</button>
+                    <button type="button" class="btn btn-primary btn-submit">리뷰 저장하기</button>
+                </div>
+            </div>
+        {% endif %}
+            <h2>{{ book.book_info.title }}</h2>
+            <p>{{ book.book_info.author }}</p>
+        </div>
+        <div class="span4">
+            <p>평균 별점 <span class="label label-warning">{{ review_avg_rating }}</span></p>
+            <ul class="reviews">
+                {% for review in reviews %}
+                <li>
+                    <p><a href="#">{{ review.user.last_name }}</a></p>
+                    <div class="review_star" data-score="{{review.rating}}"></div>
+                    <p>{{ review.body }}</p>
+                </li>
+                {% empty %}
+                <li><p>아직 리뷰가 없습니다!</p></li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </section>
 

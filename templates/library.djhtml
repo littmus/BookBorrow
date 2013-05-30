@@ -6,7 +6,8 @@
 
 {% block jsfiles %}
 <script>
-var apiLimitPerPage = 10
+var apiLimitPerPage = 10;
+var libraryId = {{ library.id }};
 </script>
 <script type="text/javascript" src="{{STATIC_URL}}js/handlebars.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="{{STATIC_URL}}js/book_tile.js" charset="utf-8"></script>
@@ -23,9 +24,20 @@ var apiLimitPerPage = 10
         <div class="span4">
             <ul class="inline pull-right">
                 <li>
-                    <button type="button" class="btn btn-small btn-inverse pull-right" onclick="starLibrary({{library.id}})">
-                        <i class="icon-white icon-star-empty"></i>
-                    </button>
+                    <div class="btn-group">
+                    {% if user.is_authenticated %}
+                        <button type="button" class="btn btn-inverse btn-star" onclick="starLibrary({{library.id}})">
+                        {% if stared %}
+                            <i class="icon-white icon-star"></i>
+                        {% else %}
+                            <i class="icon-white icon-star-empty"></i>
+                        {% endif %}
+                        </button>
+                    {% else %}
+                        <a class="btn btn-inverse disabled" href="/account/login/?return_to={{library.get_absolute_url}}"><i class="icon-white icon-star"></i></a>
+                    {% endif %}
+                        <a class="btn btn-inverse dropdown-toggle star-count" href="{{library.get_absolute_url}}star_list/">{{ library.stars }}</a>
+                    </div>
                 </li>
             {% ifequal user library.user %}
                 <li>
@@ -45,7 +57,7 @@ var apiLimitPerPage = 10
         </div>
     </div>
     <div class="row-fluid">
-        <div class="span12 well">
+        <div class="span12 well intro">
             <p>{{ library.intro }}</p>
         </div>
     </div>

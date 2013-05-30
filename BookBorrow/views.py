@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from library.models import Library
 from book.models import Book
+from review.models import Review
 
 
 def index(request):
