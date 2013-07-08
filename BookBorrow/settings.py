@@ -4,8 +4,8 @@ import os
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-DEBUG = True
-COMPRESS_ENABLED = DEBUG
+DEBUG = False
+COMPRESS_ENABLED = not DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -28,7 +28,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -69,12 +69,11 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-"""
+
 if DEBUG:
-    STATIC_ROOT = os.path.join(os.path.join(SITE_ROOT, '..'), 'static')
+    STATIC_ROOT = os.path.join(os.path.join(SITE_ROOT, '..'), 'statics')
 else:
-    """
-STATIC_ROOT = '/var/www/static/'
+    STATIC_ROOT = '/var/www/static/'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -202,7 +201,10 @@ HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, 'whoosh_index')
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'BookBorrow.utils.FullTextHighlighter'
 
-INTERNAL_IPS = ('127.0.0.1',)
+if DEBUG:
+    INTERNAL_IPS = ('127.0.0.1',)
+else:
+    INTERNAL_IPS = ('14.63.213.29',)
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
