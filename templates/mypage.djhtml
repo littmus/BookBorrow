@@ -8,14 +8,20 @@
             <h1>{{ request.user.last_name }}</h1>
             <div class="row-fluid">
                 <div class="span4">
-                    <h2>대여 목록</h2>
+                    <h3>대여 기록</h3>
                     <ul>
                     {% for lent in lent_books %}
-                        <li><a href="{{ lent.book.get_absolute_url }}">{{ lent.book.book_info.title }}</a></li>
+                        <li><a href="{{lent.book.get_absolute_url}}">{{ lent.book.book_info.title }}</a></li>
                     {% endfor %}
                     </ul>
                 </div>
                 <div class="span4">
+                    <h3>작성한 리뷰</h3>
+                    <ul>
+                    {% for review in reviews %}
+                        <li><a href="{{}}">{{ review.book.book_info.title }}</a></li>
+                    {% endfor %}
+                    </ul>
                 </div>
                 <div class="span4">
                 </div>

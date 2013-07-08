@@ -10,7 +10,7 @@ jQuery ->
                 type: 'post'
                 url: '/review/review_write_ok/'
                 data: {
-                    'book_info_id': BOOK_INFO_ID,
+                    'book_id': BOOK_ID,
                     'rating': rating_input.val(),
                     'body': $('textarea[name="review_body"]').val(),
                 }

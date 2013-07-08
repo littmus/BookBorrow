@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
 from book.models import Lend
+from review.models import Review
 
 
 def validateEmail(email):
@@ -107,7 +108,9 @@ def login_view(request):
     if 'return_to' in request.GET:
         return_to = request.GET['return_to']
 
-    return render(request, 'login.djhtml',
+    return render(
+        request,
+        'login.djhtml',
         {
             'return_to': return_to,
         })
@@ -149,16 +152,17 @@ def logout_ok(request):
 
     return HttpResponseRedirect('/')
 
+
 def mypage_view(request):
     if request.user.is_authenticated():
         lent_books = Lend.objects.filter(user=request.user)
-
+        reviews = Review.objects.filter(user=request.user)
         return render(
             request,
             'mypage.djhtml',
             {
                 'lent_books': lent_books,
+                'reviews': reviews,
             }
-  
         )
     return HttpResponseRedirect('/')

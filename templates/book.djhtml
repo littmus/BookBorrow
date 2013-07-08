@@ -12,6 +12,9 @@
         list-style: none;
         margin-left: 0px;
     }
+    textarea[name="review_body"] {
+        margin-top: 15px;
+    }
 </style>
 {% endblock %}
 
@@ -19,7 +22,7 @@
 <script type="text/javascript" src="{{STATIC_URL}}js/jquery.raty.js" charset="utf-8"></script>
 <script type="text/coffeescript" src="{{STATIC_URL}}coffee/book.coffee" charset="utf-8"></script>
 <script>
-var BOOK_INFO_ID = {{ book.book_info.id }};
+var BOOK_ID = {{ book.id }};
 var REVIEW_LEN = {{ reviews|length }};
 </script>
 {% endblock %}
@@ -54,7 +57,7 @@ var REVIEW_LEN = {{ reviews|length }};
                 </div>
                 <div class="modal-body">
                     <div id="review_star"></div>
-                    <input type="text" name="review_star" value="0" />
+                    <input type="text" name="review_star" value="0">
                     <textarea class="input-block-level" name="review_body"></textarea>
                 </div>
                 <div class="modal-footer">

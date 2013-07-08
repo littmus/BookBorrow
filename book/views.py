@@ -8,7 +8,7 @@ import xml.etree.ElementTree
 
 from django.core import serializers
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 
@@ -20,6 +20,7 @@ from review.models import Review
 
 def HttpAlertResponse(msg):
     return HttpResponse('<script>alert("%s");history.go(-1);</script>' % msg)
+
 
 @csrf_exempt
 def book_isbn_search(request):
@@ -66,16 +67,16 @@ def book_isbn_search(request):
 
                 try:
                     image_name = '%s.jpg' % bookinfo.isbn
-                    #image_path = BookBorrow.settings.SITE_ROOT + '/..'
-                    image_path = BookBorrow.settings.MEDIA_ROOT + '/..' + BookBorrow.settings.MEDIA_URL
-                    image_path += 'images/book/%s' % image_name
-                    print image_path
+
+                    image_path = BookBorrow.settings.MEDIA_ROOT
+                    image_path += '/images/book/%s' % image_name
+
                     urllib.urlretrieve(image_url[:image_url.find('?')], image_path)
+
                     bookinfo.image_path = image_name
                     bookinfo.save()
 
-                except Exception as e:
-                    print str(e)
+                except:
                     pass
 
             bookinfo_data = serializers.serialize('json', [bookinfo, ])
@@ -100,7 +101,7 @@ def book_view(request, book_id):
     if lend is not None:
         hasRead = True
 
-    reviews = Review.objects.filter(book_info=book.book_info)
+    reviews = Review.objects.filter(book__book_info=book.book_info)
 
     notReviewed = False
     try:
@@ -161,15 +162,15 @@ def book_delete(request, book_id):
     if request.user.is_authenticated():
         book = Book.objects.get_or_none(id=book_id)
         if book is None:
-            pass
+            return HttpAlertResponse('존재하지 않는 책 입니다!')
 
-        if book.library.user != request:
-            pass
+        if book.library.user != request.user:
+            return HttpAlertResponse('잘못된 동작입니다!')
 
         book.delete()
-
+        return HttpResponseRedirect('/library/my/')
     else:
-        pass
+        return HttpResponseRedirect('/')
 
 
 @login_required
@@ -186,6 +187,7 @@ def book_lend(request, book_id):
             'book': book,
         }
     )
+
 
 @csrf_exempt
 def book_lend_req_ok(request, book_id):

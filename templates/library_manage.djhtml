@@ -13,7 +13,7 @@
 <section id="library_manage">
     <div class="row-fluid">
         <div class="span12">
-            <h1>{{ library.name }}</h1>
+            <h1>{{ library.name }} <a href="/library/my/" class="btn btn-primary pull-right">도서관으로</a></h1>
             <ul class="nav nav-tabs manage_nav">
                 <li class="active"><a href="#books" data-toggle="tab">도서 목록</a></li>
                 <li><a href="#lents_req" data-toggle="tab">대여 요청</a></li>

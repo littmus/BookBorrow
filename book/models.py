@@ -23,7 +23,7 @@ class BookInfo(models.Model):
 
     def get_avg_review_rating(self):
         from review.models import Review
-        reviews = Review.objects.filter(book_info=self)
+        reviews = Review.objects.filter(book__book_info=self)
         ratings = [review.rating for review in reviews]
 
         review_avg_rating = '0.00'

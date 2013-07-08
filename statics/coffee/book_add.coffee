@@ -1,9 +1,13 @@
 jQuery ->
     $(document).ready ->
-        $('input[name="isbn"]').popover({'placement': 'bottom', 'trigger': 'focus', 'html': 'true', 'content': '<img src="/media/images/etc/isbn.png" /><p style="text-align:center;">\'-\'를 제외하고 입력해 주세요</p>'})
+        $('input[name="isbn"]').popover(
+            {
+                'placement': 'bottom', 'trigger': 'focus', 'html': 'true',
+                'content': '<img src="/static/img/isbn.png" /><p style="text-align:center;">\'-\'를 제외하고 입력해 주세요</p>'
+            }
+        )
 
         $('#isbn_check').click ->
-
             isbn = $('input[name="isbn"]').val()
 
             if isbn is ''

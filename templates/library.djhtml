@@ -41,11 +41,8 @@ var libraryId = {{ library.id }};
                 </li>
             {% ifequal user library.user %}
                 <li>
-                    <div class="btn-group pull-right">
-                        <a class="btn btn-small btn-info dropdown-toggle" data-toggle="dropdown" href="#">
-                            관리 메뉴 <span class="caret"></span>
-                        </a>
-
+                    <div class="btn-group">
+                        <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">관리 메뉴 <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/book/add/">책 추가하기</a></li>
                             <li><a href="{{library.get_absolute_url}}manage/">관리하기</a></li>
