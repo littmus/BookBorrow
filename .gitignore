@@ -5,3 +5,4 @@ local_settings.py
 *.db
 CACHE
 media
+whoosh_index

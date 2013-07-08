@@ -102,9 +102,11 @@ def book_view(request, book_id):
 
     reviews = Review.objects.filter(book_info=book.book_info)
 
-    notReviewed = True
-    if len(reviews.filter(user=request.user)) != 0:
-        notReviewed = False
+    notReviewed = False
+    try:
+        reviews.get(user=request.user)
+    except:
+        notReviewed = True
 
     canReview = (hasRead or (book.library.user == request.user)) and notReviewed
 

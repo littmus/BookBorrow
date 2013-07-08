@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import patterns, include, url
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 from tastypie.api import Api
 
@@ -28,5 +28,5 @@ urlpatterns = patterns(
     url(r'^review/', include('review.urls')),
     url(r'^search/', include('haystack.urls')),
     url(r'^api/', include(android_api.urls)),
-    url(r'^whatis/', direct_to_template, {'template': 'whatis.djhtml'}),
+    url(r'^whatis/', TemplateView.as_view(template_name='whatis.djhtml')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

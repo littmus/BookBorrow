@@ -6,6 +6,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
+from book.models import Lend
+
 
 def validateEmail(email):
     from django.core.validators import validate_email
@@ -145,4 +147,18 @@ def logout_ok(request):
     if request.user.is_authenticated():
         logout(request)
 
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect('/')
+
+def mypage_view(request):
+    if request.user.is_authenticated():
+        lent_books = Lend.objects.filter(user=request.user)
+
+        return render(
+            request,
+            'mypage.djhtml',
+            {
+                'lent_books': lent_books,
+            }
+  
+        )
+    return HttpResponseRedirect('/')

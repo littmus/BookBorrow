@@ -1,0 +1,27 @@
+{% extends 'base.djhtml' %}
+
+{% block contents %}
+
+<section id="mypage">
+    <div class="row-fluid">
+        <div class="span12">
+            <h1>{{ request.user.last_name }}</h1>
+            <div class="row-fluid">
+                <div class="span4">
+                    <h2>대여 목록</h2>
+                    <ul>
+                    {% for lent in lent_books %}
+                        <li><a href="{{ lent.book.get_absolute_url }}">{{ lent.book.book_info.title }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <div class="span4">
+                </div>
+                <div class="span4">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
