@@ -11,8 +11,8 @@
 {% block contents %}
 
 <section id="library_manage">
-    <div class="row-fluid">
-        <div class="span12">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
             <h1>{{ library.name }} <a href="/library/my/" class="btn btn-primary pull-right">도서관으로</a></h1>
             <ul class="nav nav-tabs manage_nav">
                 <li class="active"><a href="#books" data-toggle="tab">도서 목록</a></li>
@@ -42,8 +42,8 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a class="btn btn-danger btn-small" href="{{book.get_absolute_url}}delete">
-                                    <i class="icon icon-trash"></i>
+                                <a class="btn btn-danger btn-sm" href="{{book.get_absolute_url}}delete">
+                                    <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             </td>
                         </tr>
@@ -67,11 +67,11 @@
                             <td>{{ lent.lent_date|date:"Y-m-d" }}</td>
                             <td>{{ lent.return_date|date:"Y-m-d" }}</td>
                             <td>
-                                <a class="btn btn-small btn-primary" href="/book/lend/{{lent.id}}/lend_process/ok/">
-                                    <i class="icon-white icon-ok"></i>
+                                <a class="btn btn-sm btn-primary" href="/book/lend/{{lent.id}}/lend_process/ok/">
+                                    <span class="glyphicon glyphicon-ok"></span>
                                 </a>
-                                <a class="btn btn-small btn-danger" href="/book/lend/{{lent.id}}/lend_process/reject/">
-                                    <i class="icon-white icon-remove"></i>
+                                <a class="btn btn-sm btn-danger" href="/book/lend/{{lent.id}}/lend_process/reject/">
+                                    <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             </td>
                         </tr>
@@ -95,9 +95,7 @@
                             <td>{{ lent.lent_date|date:"Y-m-d" }}</td>
                             <td>{{ lent.return_date|date:"Y-m-d" }}</td>
                             <td>
-                                <a class="btn btn-small btn-primary" href="/book/lend/{{lent.id}}/lend_process/returned/">
-                                    반납
-                                </a>
+                                <a class="btn btn-sm btn-primary" href="/book/lend/{{lent.id}}/lend_process/returned/">반납</a>
                             </td>
                         </tr>
                     {% endfor %}

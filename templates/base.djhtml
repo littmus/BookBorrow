@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,69 +8,72 @@
 
         {% load compress %}
 
+        <link rel="stylesheet" href="http://bootswatch.com/flatly/bootstrap.min.css" type="text/css" />
         {% compress css %}
-        <link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap.css" type="text/css" />
-        <link rel="stylesheet" href="{{STATIC_URL}}css/bootstrap-responsive.min.css" type="text/css" />
         <link rel="stylesheet" href="{{STATIC_URL}}css/base.css" type="text/css" />
         {% block cssfiles %}
 
         {% endblock %}
 
         {% endcompress %}
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        {% compress js %}
+        {% block jsfiles %}
+        {% endblock %}
+        {% endcompress %}
     </head>
 
     <body>
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="brand" href="/">책보러</a>
-
-                    <div class="nav-collapse">
-                        {% if user.is_authenticated %}
-                        <ul class="nav">
-                            <li>
-                                <a href="/library/my/">내 도서관</a>
-                            </li>
-                        </ul>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main_nav">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">책보러</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main_nav">
+                    {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="/library/my/">내 도서관</a>
+                        </li>
+                   </ul>
                         {% endif %}
-                        <form class="navbar-search pull-left" action="{% url "haystack_search" %}">
-                            <input type="text" class="search-query span2" name="q" placeholder="검색" value="{{ request.GET.q }}">
-                        </form>
+                   <form class="navbar-form navbar-left" action="{% url "haystack_search" %}">
+                        <input type="text" class="search-query form-control" name="q" placeholder="검색" value="{{ request.GET.q }}">
+                    </form>
 
-                        {% if user.is_authenticated %}
-                        <ul class="nav pull-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.last_name }} <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="#">설정</a>
-                                        <a href="/account/logout_ok/">로그아웃</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        {% else %}
-                        <div class="pull-right">
-                            <a href="/account/login/" class="btn btn-primary">로그인</a>
-                            <a href="/account/join/" class="btn btn-info">가입하기</a>
-                        </div>
-                        {% endif %}
+                    {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.last_name }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#">설정</a>
+                                    <a href="/account/logout_ok/">로그아웃</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/account/login/">로그인</a></li>
+                        <li><a href="/account/join/">가입하기</a></a></li>
+                    </ul>
+                    {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
+        <div class="container container-fluid">
             {% block contents %}
             {% endblock %}
 
             <!--<footer>© sdw 2013 </footer>-->
         </div>
-
-        {% compress js %}
-        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.9.1.min.js" charset="utf-8"></script>
-        <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js" charset="utf-8"></script>
-        {% block jsfiles %}
-        {% endblock %}
-        {% endcompress %}
     </body>
 </html>

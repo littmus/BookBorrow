@@ -36,7 +36,7 @@
                         <p>{% highlight result.object.book_info.author with query %}</p>
                     {% endif %}
                     {% if result.object.library != None %}
-                        <p>{{ result.object.library.name }}</p>
+                        <p><a href="{{ result.object.library.get_absolute_url }}">{{ result.object.library.name }}</a></p>
                     {% endif %}
                     </td>
                 </tr>

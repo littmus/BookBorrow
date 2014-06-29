@@ -1,4 +1,5 @@
 {% verbatim %}
+    <div class="col-xs-12 col-md-12">
     <script id="books-template" type="text/x-handlebars-template">
         {{#each books}}
         <div class="book" data-id="{{id}}">
@@ -12,4 +13,5 @@
         </div>
         {{/each}}
     </script>
+    </div>
 {% endverbatim %}

@@ -5,53 +5,47 @@
 {% endblock %}
 
 {% block contents %}
-
 <section id="join">
-    <div class="row-fluid">
-        <div class="span12">
-            <form class="form-horizontal" id="accounts_join" method="post" action="/account/join_ok/">
-                <fieldset>
-                    <legend> 가입하기 </legend>
-
-                    <div class="control-group">
-                        <label class="control-label" for="id"> ID </label>
-                        <div class="controls">
-                            <input type="text" id="id" name="id" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="password"> 비밀번호 </label>
-                        <div class="controls">
-                            <input type="password" id="password" name="password" rel="popover" data-content="6자 이상 입력해주세요!" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name"> 이름 </label>
-                        <div class="controls">
-                            <input type="text" id="name" name="name" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="id"> Email </label>
-                        <div class="controls">
-                            <div class="input-append" id="email_box">
-                                <input type="email" id="email", name="email" />
-                                <button class="btn" type="button" id="email_check"> 중복 확인 </button>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><strong>가입하기</strong></h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form" id="accounts_join" method="post" action="/account/join_ok/">
+                        <fieldset>
+                            <div class="form-group">
+                                <label class="control-label" for="id"> ID </label>
+                                <input type="text" id="id" name="id" class="form-control" />
                             </div>
-                        </div>
-                    </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password"> 비밀번호 </label>
+                                <input type="password" id="password" name="password" data-container="body" data-focus="popover" data-content="6자 이상 입력해주세요!" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="name"> 이름 </label>
+                                <input type="text" id="name" name="name" class="form-control" />
+                            </div>
 
-                    <div class="control-group">
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-inverse btn-large"> 가입! </button>
-                            <a href="/" class="btn btn-large"> 돌아가기 </a>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+                            <div class="form-group">
+                                <label class="control-label" for="id"> Email </label>
+                            <!--<div class="input-group" id="email_box">-->
+                                    <input type="email" id="email", name="email" class="form-control" />
+                            <!--    <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button" id="email_check"><span class="glyphicon glyphicon-ok"><span></button>
+                                </div>
+                            -->
+                            </div>
+
+                            <div class="btn-group pull-right">
+                                <button type="submit" class="btn btn-inverse btn-lg"> 가입! </button>
+                                <a href="/" class="btn btn-default btn-lg"> 돌아가기 </a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </section>

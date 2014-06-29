@@ -1,3 +1,7 @@
+.btn_list {
+    margin-top: 20px;
+}
+
 .intro {
     margin-top: 15px;
 }
@@ -24,14 +28,14 @@
     display: none;
     margin: 0;
     padding: 0;
-    width: 218px;
+    width: 216px;
 }
 
 .book .text {
-    width: 208px;
+    width: 216px;
     position: absolute;
-    padding: 5px;
     display: none;
+    padding: 5px;
     background-color: #ffffff;
     opacity: 0.8;
 }

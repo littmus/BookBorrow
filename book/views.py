@@ -35,13 +35,12 @@ def book_isbn_search(request):
             bookinfo = BookInfo.objects.get_or_none(isbn=isbn)
 
             if bookinfo is None:
-                key = '141c58846afaf85cd6a5d52e47aa1b86'
-                url = 'http://openapi.naver.com/search?key=' + key
-                url += '&target=book_adv&query=%s&d_isbn=%s' % (isbn, isbn)
-
-                req = urllib2.Request(url)
-                res = urllib2.urlopen(req).read()
-
+                import naver_openapi
+                
+                key = '47049ea16d6227d365092fb3fb7fe9c7' 
+                search = naver_openapi.Search(key=key)
+                res = search.book(target='book_adv', query=isbn, details={'d_isbn':isbn})
+                print res
                 element = xml.etree.ElementTree.XML(res)
 
                 # No search results.

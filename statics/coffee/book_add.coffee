@@ -2,8 +2,9 @@ jQuery ->
     $(document).ready ->
         $('input[name="isbn"]').popover(
             {
-                'placement': 'bottom', 'trigger': 'focus', 'html': 'true',
-                'content': '<img src="/static/img/isbn.png" /><p style="text-align:center;">\'-\'를 제외하고 입력해 주세요</p>'
+                'placement': 'bottom', 'trigger': 'focus', 'html': 'false',
+                'content': '<img src="/static/img/isbn.png" style="width:100%;"><p style="text-align:center;">\'-\'를 제외하고 입력해 주세요</p>',
+                'container': 'body'
             }
         )
 

@@ -7,17 +7,17 @@ jQuery ->
                 if retData == '-1'
                     alert '에러가 발생했습니다!' 
                 else
-                    star = '<i class="icon-white icon-star"></i>'
-                    star_empty = '<i class="icon-white icon-star-empty"></i>'
-                    bt = $('.btn-star')
+                    bt = $('.btn-star > span.glyphicon')
                     sc = $('.star-count')
                     sc_val = parseInt sc.text()
                     if retData == 'star'
                         sc.text (sc_val + 1)
-                        bt.html(star)
+                        bt.removeClass "glyphicon-star-empty"
+                        bt.addClass "glyphicon-star"
                     else if retData == 'unstar'
                         sc.text (sc_val - 1)
-                        bt.html(star_empty)
+                        bt.removeClass "glyphicon-star"
+                        bt.addClass "glyphicon-star-empty"
 
             fail: ->
                 alert '에러가 발생했습니다!'

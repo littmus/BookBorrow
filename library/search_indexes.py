@@ -1,12 +1,13 @@
-from haystack import indexes, site
+from haystack import indexes
 
 from .models import Library
 
 
-class LibraryIndex(indexes.SearchIndex):
-    name = indexes.CharField(model_attr='name', document=True)
+class LibraryIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.NgramField(model_attr='name', document=True)
+    
+    def get_model(self):
+        return Library
 
-    def index_queryset(self):
+    def index_queryset(self, using=None):
         return Library.objects.all()
-
-site.register(Library, LibraryIndex)

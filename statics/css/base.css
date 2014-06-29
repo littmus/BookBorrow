@@ -1,9 +1,14 @@
+a {
+    text-decoration: none !important;
+}
+
 body {
     margin-top: 80px;
 }
-
+/*
 @media (max-width: 979px) {
     body {
         margin-top: 0px;
     }
 }
+*/

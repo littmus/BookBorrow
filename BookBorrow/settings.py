@@ -4,8 +4,8 @@ import os
 
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 
-DEBUG = False
-COMPRESS_ENABLED = not DEBUG
+DEBUG = True
+#COMPRESS_ENABLED = not DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -55,7 +55,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-if DEBUG:
+if not DEBUG:
     MEDIA_ROOT = os.path.join(os.path.join(SITE_ROOT, '..'), 'media')
 else:
     MEDIA_ROOT = '/var/www/media/'
@@ -81,7 +81,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(os.path.join(SITE_ROOT, '..'), 'statics'),
+    #os.path.join(os.path.join(SITE_ROOT, '..'), 'statics'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -114,7 +114,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'BookBorrow.urls'
@@ -132,6 +132,7 @@ TEMPLATE_DIRS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.static',
+    'django.core.context_processors.media',
     'django.core.context_processors.request',
 )
 
@@ -152,7 +153,8 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'gunicorn',
     'south',
-    'tastypie',
+#    'tastypie',
+#    'rest_framework',
 
     'library',
     'book',
@@ -195,11 +197,21 @@ API_LIMIT_PER_PAGE = 50
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),
 )
-
+"""
 HAYSTACK_SITECONF = 'BookBorrow.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = os.path.join(SITE_ROOT, 'whoosh_index')
 HAYSTACK_CUSTOM_HIGHLIGHTER = 'BookBorrow.utils.FullTextHighlighter'
+"""
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(SITE_ROOT, 'whoosh_index'),
+    },
+}
+HAYSTACK_CUSTOM_HIGHLIGHTER = 'BookBorrow.utils.FullTextHighlighter'
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 if DEBUG:
     INTERNAL_IPS = ('127.0.0.1',)

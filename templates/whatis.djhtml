@@ -2,8 +2,8 @@
 
 {% block contents %}
 <section id="whatis">
-    <div class="row-fluid">
-        <div class="span12">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
             <h1>책보러</h1>
             <p class="lead"><em>책</em> + <em>Borrow</em></p>
             <p>책보러는 '책'과 '빌리다'를 뜻하는 영어 단어 'Borrow'를 '보러'로 나타내어 만들어진 이름 입니다.</p>
