@@ -71,18 +71,15 @@ def book_isbn_search(request):
                     image_path += '/images/book/%s' % image_name
 
                     urllib.urlretrieve(image_url[:image_url.find('?')], image_path)
-
-                    bookinfo.image_path = image_name
-                    bookinfo.save()
-
-                except:
+                except Exception as e:
+                    print str(e)
                     pass
 
             bookinfo_data = serializers.serialize('json', [bookinfo, ])
             struct = json.loads(bookinfo_data)
             bookinfo_json = json.dumps(struct[0])
 
-            return HttpResponse(bookinfo_json, mimetype='application/json')
+            return HttpResponse(bookinfo_json, content_type='application/json')
         else:
             return HttpResponse('-1')
 

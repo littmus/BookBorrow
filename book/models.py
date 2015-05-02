@@ -8,7 +8,7 @@ from library.models import Library
 class BaseManager(models.Manager):
     def get_or_none(self, **kwargs):
         try:
-            return self.get_query_set().get(**kwargs)
+            return self.get_queryset().get(**kwargs)
         except:
             return None
 
@@ -19,7 +19,6 @@ class BookInfo(models.Model):
     title = models.TextField(null=False, blank=False)
     author = models.TextField(null=True, blank=True)
     isbn = models.CharField(max_length=13, null=True, blank=True)
-    image_path = models.CharField(max_length=100, null=True, blank=True)
 
     def get_avg_review_rating(self):
         from review.models import Review

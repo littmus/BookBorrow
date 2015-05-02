@@ -55,10 +55,10 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-if not DEBUG:
+if DEBUG:
     MEDIA_ROOT = os.path.join(os.path.join(SITE_ROOT, '..'), 'media')
 else:
-    MEDIA_ROOT = '/var/www/media/'
+    MEDIA_ROOT = '/var/www/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -73,7 +73,7 @@ MEDIA_URL = '/media/'
 if DEBUG:
     STATIC_ROOT = os.path.join(os.path.join(SITE_ROOT, '..'), 'statics')
 else:
-    STATIC_ROOT = '/var/www/static/'
+    STATIC_ROOT = '/var/www/static'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -152,8 +152,8 @@ INSTALLED_APPS = (
     'haystack',
     'debug_toolbar',
     'gunicorn',
-    'south',
-#    'tastypie',
+#    'south',
+    'tastypie',
 #    'rest_framework',
 
     'library',
@@ -193,6 +193,7 @@ LOGGING = {
 LOGIN_URL = '/account/login/'
 
 API_LIMIT_PER_PAGE = 50
+#FORCE_SCRIPT_NAME = '/bookborrow'
 
 COMPRESS_PRECOMPILERS = (
     ('text/coffeescript', 'coffee --compile --stdio'),

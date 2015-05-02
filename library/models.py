@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 class BaseManager(models.Manager):
     def get_or_none(self, **kwargs):
         try:
-            return self.get_query_set().get(**kwargs)
+            return self.get_queryset().get(**kwargs)
         except:
             return None
 

@@ -4,7 +4,7 @@
         {{#each books}}
         <div class="book" data-id="{{id}}">
             <div class="img">
-                <a href="/book/{{ id }}/"><img src="/media/images/book/{{ book_info.image_path }}" /></a>
+                <a href="/book/{{ id }}/"><img src="/media/images/book/{{ book_info.isbn }}.jpg" /></a>
             </div>
             <div class="text">
                 <p><b>{{ book_info.title }}</b></p>
